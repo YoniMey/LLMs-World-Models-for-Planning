@@ -1,0 +1,286 @@
+{
+    "Load a book into a cart": {
+        "predicate_prompt": "You can create and define new predicates, but you may also reuse the following predicates:\nNo predicate has been defined yet",
+        "action_desc": "This action enables the agent to load a book into a cart. For example, load book_1 into cart_1.",
+        "iter_1": {
+            "llm_output": "1. ?b - book: the book to load\n2. ?c - cart: the cart to load the book into\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-cart ?b ?c)\n)\n```\n\nNew Predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "llm_output": "1. ?b - book: the book to load\n2. ?c - cart: the cart to load the book into\n3. ?s - shelf: the shelf where the book and cart are located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-cart ?b ?c)\n)\n```\n\nNew Predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c",
+        "iter_2": {
+            "llm_output": "1. ?b - book: the book to load\n2. ?c - cart: the cart to load the book into\n3. ?s - shelf: the shelf where the book and cart are located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-cart ?b ?c)\n)\n```\n\nNew Predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_3": {
+            "llm_output": "1. ?b - book: the book to load\n2. ?c - cart: the cart to load the book into\n3. ?s - shelf: the shelf where the book and cart are located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-cart ?b ?c)\n)\n```\n\nNew Predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_4": {
+            "llm_output": "1. ?b - book: the book to load\n2. ?c - cart: the cart to load the book into\n3. ?s - shelf: the shelf where the book and cart are located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-cart ?b ?c)\n)\n```\n\nNew Predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_5": {
+            "llm_output": "1. ?b - book: the book to load\n2. ?c - cart: the cart to load the book into\n3. ?s - shelf: the shelf where the book and cart are located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-cart ?b ?c)\n)\n```\n\nNew Predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_6": {
+            "llm_output": "1. ?b - book: the book to load\n2. ?c - cart: the cart to load the book into\n3. ?s - shelf: the shelf where the book and cart are located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-cart ?b ?c)\n)\n```\n\nNew Predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_7": {
+            "llm_output": "1. ?b - book: the book to load\n2. ?c - cart: the cart to load the book into\n3. ?s - shelf: the shelf where the book and cart are located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-cart ?b ?c)\n)\n```\n\nNew Predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_8": {
+            "llm_output": "1. ?b - book: the book to load\n2. ?c - cart: the cart to load the book into\n3. ?s - shelf: the shelf where the book and cart are located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-cart ?b ?c)\n)\n```\n\nNew Predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "new_predicates": [
+            "(book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s",
+            "(cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s",
+            "(book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c"
+        ]
+    },
+    "Unload a book from a cart": {
+        "predicate_prompt": "You can create and define new predicates, but you may also reuse the following predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c",
+        "action_desc": "This action enables the agent to unload a book from a cart. For example, unload book_1 from cart_1.",
+        "iter_1": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?c - cart: the cart from which the book is to be unloaded\n3. ?s - shelf: the shelf where the cart is located\n\nPreconditions:\n```\n(and\n    (book-in-cart ?b ?c)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-cart ?b ?c))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "llm_output": "1. ?b - book: the book to unload\n2. ?c - cart: the cart from which the book is to be unloaded\n3. ?s - shelf: the shelf where the cart is located\n\nPreconditions:\n```\n(and\n    (book-in-cart ?b ?c)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-cart ?b ?c))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+        "iter_2": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?c - cart: the cart from which the book is to be unloaded\n3. ?s - shelf: the shelf where the cart is located\n\nPreconditions:\n```\n(and\n    (book-in-cart ?b ?c)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-cart ?b ?c))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_3": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?c - cart: the cart from which the book is to be unloaded\n3. ?s - shelf: the shelf where the cart is located\n\nPreconditions:\n```\n(and\n    (book-in-cart ?b ?c)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-cart ?b ?c))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_4": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?c - cart: the cart from which the book is to be unloaded\n3. ?s - shelf: the shelf where the cart is located\n\nPreconditions:\n```\n(and\n    (book-in-cart ?b ?c)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-cart ?b ?c))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_5": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?c - cart: the cart from which the book is to be unloaded\n3. ?s - shelf: the shelf where the cart is located\n\nPreconditions:\n```\n(and\n    (book-in-cart ?b ?c)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-cart ?b ?c))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_6": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?c - cart: the cart from which the book is to be unloaded\n3. ?s - shelf: the shelf where the cart is located\n\nPreconditions:\n```\n(and\n    (book-in-cart ?b ?c)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-cart ?b ?c))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_7": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?c - cart: the cart from which the book is to be unloaded\n3. ?s - shelf: the shelf where the cart is located\n\nPreconditions:\n```\n(and\n    (book-in-cart ?b ?c)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-cart ?b ?c))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_8": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?c - cart: the cart from which the book is to be unloaded\n3. ?s - shelf: the shelf where the cart is located\n\nPreconditions:\n```\n(and\n    (book-in-cart ?b ?c)\n    (cart-at ?c ?s)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-cart ?b ?c))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "new_predicates": []
+    },
+    "Load a book into a delivery van": {
+        "predicate_prompt": "You can create and define new predicates, but you may also reuse the following predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c",
+        "action_desc": "This action enables the agent to load a book into a delivery van. For example, load book_1 into van_1.",
+        "iter_1": {
+            "llm_output": "1. ?b - book: the book to load into the van\n2. ?v - van: the van to load the book into\n3. ?s - shelf: the shelf where the book is located\n4. ?l - library: the library where the van is located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-van ?b ?v)\n)\n```\n\nNew Predicates:\n1. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l\n2. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l\n3. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "llm_output": "1. ?b - book: the book to load into the van\n2. ?v - van: the van to load the book into\n3. ?s - shelf: the shelf where the book is located\n4. ?l - library: the library where the van is located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-van ?b ?v)\n)\n```\n\nNew Predicates:\n1. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l\n2. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l\n3. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v",
+        "iter_2": {
+            "llm_output": "1. ?b - book: the book to load into the van\n2. ?v - van: the van to load the book into\n3. ?s - shelf: the shelf where the book is located\n4. ?l - library: the library where the van is located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-van ?b ?v)\n)\n```\n\nNew Predicates:\n1. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l\n2. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l\n3. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_3": {
+            "llm_output": "1. ?b - book: the book to load into the van\n2. ?v - van: the van to load the book into\n3. ?s - shelf: the shelf where the book is located\n4. ?l - library: the library where the van is located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-van ?b ?v)\n)\n```\n\nNew Predicates:\n1. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l\n2. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l\n3. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_4": {
+            "llm_output": "1. ?b - book: the book to load into the van\n2. ?v - van: the van to load the book into\n3. ?s - shelf: the shelf where the book is located\n4. ?l - library: the library where the van is located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-van ?b ?v)\n)\n```\n\nNew Predicates:\n1. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l\n2. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l\n3. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_5": {
+            "llm_output": "1. ?b - book: the book to load into the van\n2. ?v - van: the van to load the book into\n3. ?s - shelf: the shelf where the book is located\n4. ?l - library: the library where the van is located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-van ?b ?v)\n)\n```\n\nNew Predicates:\n1. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l\n2. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l\n3. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_6": {
+            "llm_output": "1. ?b - book: the book to load into the van\n2. ?v - van: the van to load the book into\n3. ?s - shelf: the shelf where the book is located\n4. ?l - library: the library where the van is located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-van ?b ?v)\n)\n```\n\nNew Predicates:\n1. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l\n2. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l\n3. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_7": {
+            "llm_output": "1. ?b - book: the book to load into the van\n2. ?v - van: the van to load the book into\n3. ?s - shelf: the shelf where the book is located\n4. ?l - library: the library where the van is located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-van ?b ?v)\n)\n```\n\nNew Predicates:\n1. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l\n2. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l\n3. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_8": {
+            "llm_output": "1. ?b - book: the book to load into the van\n2. ?v - van: the van to load the book into\n3. ?s - shelf: the shelf where the book is located\n4. ?l - library: the library where the van is located\n\nPreconditions:\n```\n(and\n    (book-at ?b ?s)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-at ?b ?s))\n    (book-in-van ?b ?v)\n)\n```\n\nNew Predicates:\n1. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l\n2. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l\n3. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "new_predicates": [
+            "(van-at ?v - van ?l - library): true if the van ?v is at the library ?l",
+            "(shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l",
+            "(book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v"
+        ]
+    },
+    "Unload a book from a delivery van": {
+        "predicate_prompt": "You can create and define new predicates, but you may also reuse the following predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c\n4. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l\n5. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l\n6. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v",
+        "action_desc": "This action enables the agent to unload a book from a delivery van. For example, unload book_1 from van_1.",
+        "iter_1": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?v - van: the van from which the book is unloaded\n3. ?l - library: the library where the van is located\n4. ?s - shelf: the shelf where the book will be placed\n\nPreconditions:\n```\n(and\n    (book-in-van ?b ?v)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-van ?b ?v))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "llm_output": "1. ?b - book: the book to unload\n2. ?v - van: the van from which the book is unloaded\n3. ?l - library: the library where the van is located\n4. ?s - shelf: the shelf where the book will be placed\n\nPreconditions:\n```\n(and\n    (book-in-van ?b ?v)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-van ?b ?v))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+        "iter_2": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?v - van: the van from which the book is unloaded\n3. ?l - library: the library where the van is located\n4. ?s - shelf: the shelf where the book will be placed\n\nPreconditions:\n```\n(and\n    (book-in-van ?b ?v)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-van ?b ?v))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_3": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?v - van: the van from which the book is unloaded\n3. ?l - library: the library where the van is located\n4. ?s - shelf: the shelf where the book will be placed\n\nPreconditions:\n```\n(and\n    (book-in-van ?b ?v)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-van ?b ?v))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_4": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?v - van: the van from which the book is unloaded\n3. ?l - library: the library where the van is located\n4. ?s - shelf: the shelf where the book will be placed\n\nPreconditions:\n```\n(and\n    (book-in-van ?b ?v)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-van ?b ?v))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_5": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?v - van: the van from which the book is unloaded\n3. ?l - library: the library where the van is located\n4. ?s - shelf: the shelf where the book will be placed\n\nPreconditions:\n```\n(and\n    (book-in-van ?b ?v)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-van ?b ?v))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_6": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?v - van: the van from which the book is unloaded\n3. ?l - library: the library where the van is located\n4. ?s - shelf: the shelf where the book will be placed\n\nPreconditions:\n```\n(and\n    (book-in-van ?b ?v)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-van ?b ?v))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_7": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?v - van: the van from which the book is unloaded\n3. ?l - library: the library where the van is located\n4. ?s - shelf: the shelf where the book will be placed\n\nPreconditions:\n```\n(and\n    (book-in-van ?b ?v)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-van ?b ?v))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_8": {
+            "llm_output": "1. ?b - book: the book to unload\n2. ?v - van: the van from which the book is unloaded\n3. ?l - library: the library where the van is located\n4. ?s - shelf: the shelf where the book will be placed\n\nPreconditions:\n```\n(and\n    (book-in-van ?b ?v)\n    (van-at ?v ?l)\n    (shelf-in-library ?s ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (book-in-van ?b ?v))\n    (book-at ?b ?s)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `book` for the parameter ?b. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "new_predicates": []
+    },
+    "Push a cart from one shelf to another in a library": {
+        "predicate_prompt": "You can create and define new predicates, but you may also reuse the following predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c\n4. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l\n5. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l\n6. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v",
+        "action_desc": "This action enables the agent to push a cart from one shelf to another in a library. For example, push cart_1 from shelf_1 to shelf_2 in library_1.",
+        "iter_1": {
+            "llm_output": "1. ?c - cart: the cart to be pushed\n2. ?s1 - shelf: the initial shelf where the cart is located\n3. ?s2 - shelf: the destination shelf where the cart will be pushed to\n4. ?l - library: the library where the action takes place\n\nPreconditions:\n```\n(and\n    (cart-at ?c ?s1)\n    (shelf-in-library ?s1 ?l)\n    (shelf-in-library ?s2 ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (cart-at ?c ?s1))\n    (cart-at ?c ?s2)\n    (forall (?b - book) \n        (when (book-in-cart ?b ?c)\n            (and\n                (not (book-at ?b ?s1))\n                (book-at ?b ?s2)\n            )\n        )\n    )\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "has_unsupported_keywords",
+            "feedback_msg": "The precondition or effect contain the keyword `forall` that is not supported in a standard STRIPS style model. Please express the same logic in a simplified way. You can come up with new predicates if needed (but note that you should use existing predicates as much as possible).\n\nParameters:"
+        },
+        "llm_output": "1. ?c - cart: the cart to be pushed\n2. ?s1 - shelf: the initial shelf where the cart is located\n3. ?s2 - shelf: the destination shelf where the cart will be pushed to\n4. ?l - library: the library where the action takes place\n\nPreconditions:\n```\n(and\n    (cart-at ?c ?s1)\n    (shelf-in-library ?s1 ?l)\n    (shelf-in-library ?s2 ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (cart-at ?c ?s1))\n    (cart-at ?c ?s2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+        "iter_2": {
+            "llm_output": "1. ?c - cart: the cart to be pushed\n2. ?s1 - shelf: the initial shelf where the cart is located\n3. ?s2 - shelf: the destination shelf where the cart will be pushed to\n4. ?l - library: the library where the action takes place\n\nPreconditions:\n```\n(and\n    (cart-at ?c ?s1)\n    (shelf-in-library ?s1 ?l)\n    (shelf-in-library ?s2 ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (cart-at ?c ?s1))\n    (cart-at ?c ?s2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `shelf` for the parameter ?s1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_3": {
+            "llm_output": "1. ?c - cart: the cart to be pushed\n2. ?s1 - location: the initial location where the cart is located\n3. ?s2 - location: the destination location where the cart will be pushed to\n4. ?l - library: the library where the action takes place\n\nPreconditions:\n```\n(and\n    (cart-at ?c ?s1)\n    (location-in-library ?s1 ?l)\n    (location-in-library ?s2 ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (cart-at ?c ?s1))\n    (cart-at ?c ?s2)\n)\n```\n\nNew Predicates:\n1. (location-in-library ?s - location ?l - library): true if the location ?s is in the library ?l",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `location` for the parameter ?s1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_4": {
+            "llm_output": "1. ?c - cart: the cart to be pushed\n2. ?s1 - shelf: the initial shelf where the cart is located\n3. ?s2 - shelf: the destination shelf where the cart will be pushed to\n4. ?l - library: the library where the action takes place\n\nPreconditions:\n```\n(and\n    (cart-at ?c ?s1)\n    (shelf-in-library ?s1 ?l)\n    (shelf-in-library ?s2 ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (cart-at ?c ?s1))\n    (cart-at ?c ?s2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `shelf` for the parameter ?s1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_5": {
+            "llm_output": "1. ?c - cart: the cart to be pushed\n2. ?s1 - shelf: the initial shelf where the cart is located\n3. ?s2 - shelf: the destination shelf where the cart will be pushed to\n4. ?l - library: the library where the action takes place\n\nPreconditions:\n```\n(and\n    (cart-at ?c ?s1)\n    (shelf-in-library ?s1 ?l)\n    (shelf-in-library ?s2 ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (cart-at ?c ?s1))\n    (cart-at ?c ?s2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `shelf` for the parameter ?s1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_6": {
+            "llm_output": "1. ?c - cart: the cart to be pushed\n2. ?s1 - shelf: the initial shelf where the cart is located\n3. ?s2 - shelf: the destination shelf where the cart will be pushed to\n4. ?l - library: the library where the action takes place\n\nPreconditions:\n```\n(and\n    (cart-at ?c ?s1)\n    (shelf-in-library ?s1 ?l)\n    (shelf-in-library ?s2 ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (cart-at ?c ?s1))\n    (cart-at ?c ?s2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `shelf` for the parameter ?s1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_7": {
+            "llm_output": "1. ?c - cart: the cart to be pushed\n2. ?s1 - shelf: the initial shelf where the cart is located\n3. ?s2 - shelf: the destination shelf where the cart will be pushed to\n4. ?l - library: the library where the action takes place\n\nPreconditions:\n```\n(and\n    (cart-at ?c ?s1)\n    (shelf-in-library ?s1 ?l)\n    (shelf-in-library ?s2 ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (cart-at ?c ?s1))\n    (cart-at ?c ?s2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `shelf` for the parameter ?s1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_8": {
+            "llm_output": "1. ?c - cart: the cart to be pushed\n2. ?s1 - shelf: the initial shelf where the cart is located\n3. ?s2 - shelf: the destination shelf where the cart will be pushed to\n4. ?l - library: the library where the action takes place\n\nPreconditions:\n```\n(and\n    (cart-at ?c ?s1)\n    (shelf-in-library ?s1 ?l)\n    (shelf-in-library ?s2 ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (cart-at ?c ?s1))\n    (cart-at ?c ?s2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `shelf` for the parameter ?s1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "new_predicates": []
+    },
+    "Drive a delivery van from one library to another": {
+        "predicate_prompt": "You can create and define new predicates, but you may also reuse the following predicates:\n1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s\n2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s\n3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c\n4. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l\n5. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l\n6. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v",
+        "action_desc": "This action enables the agent to drive a delivery van from one library's delivery hub to another. The delivery hubs are shelves in the library. For example, drive van_1 from shelf_0 to shelf_1.",
+        "iter_1": {
+            "llm_output": "1. ?v - van: the van to drive\n2. ?s1 - shelf: the starting shelf (delivery hub)\n3. ?s2 - shelf: the destination shelf (delivery hub)\n\nPreconditions:\n```\n(and\n    (van-at ?v ?s1)\n    (shelf-in-library ?s1 ?l1)\n    (shelf-in-library ?s2 ?l2)\n)\n```\n\nEffects:\n```\n(and\n    (not (van-at ?v ?s1))\n    (van-at ?v ?s2)\n)\n```\n\nNew Predicates:\n1. (van-at ?v - van ?s - shelf): true if the van ?v is at the shelf ?s",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `shelf` for the parameter ?s1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "llm_output": "1. ?v - van: the van to drive\n2. ?l1 - library: the library where the van is currently located\n3. ?l2 - library: the library to which the van is to be driven\n\nPreconditions:\n```\n(and\n    (van-at ?v ?l1)\n)\n```\n\nEffects:\n```\n(and\n    (not (van-at ?v ?l1))\n    (van-at ?v ?l2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+        "iter_2": {
+            "llm_output": "1. ?v - van: the van to drive\n2. ?l1 - library: the starting library\n3. ?l2 - library: the destination library\n\nPreconditions:\n```\n(and\n    (van-at ?v ?l1)\n)\n```\n\nEffects:\n```\n(and\n    (not (van-at ?v ?l1))\n    (van-at ?v ?l2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `library` for the parameter ?l1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_3": {
+            "llm_output": "1. ?v - van: the van to drive\n2. ?s1 - shelf: the starting shelf (delivery hub)\n3. ?s2 - shelf: the destination shelf (delivery hub)\n4. ?l1 - library: the starting library\n5. ?l2 - library: the destination library\n\nPreconditions:\n```\n(and\n    (van-at ?v ?l1)\n    (shelf-in-library ?s1 ?l1)\n    (shelf-in-library ?s2 ?l2)\n)\n```\n\nEffects:\n```\n(and\n    (not (van-at ?v ?l1))\n    (van-at ?v ?l2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `shelf` for the parameter ?s1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_4": {
+            "llm_output": "1. ?v - van: the van to drive\n2. ?l1 - library: the starting library\n3. ?l2 - library: the destination library\n\nPreconditions:\n```\n(and\n    (van-at ?v ?l1)\n)\n```\n\nEffects:\n```\n(and\n    (not (van-at ?v ?l1))\n    (van-at ?v ?l2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `library` for the parameter ?l1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_5": {
+            "llm_output": "1. ?v - van: the van to drive\n2. ?s1 - shelf: the starting shelf (delivery hub)\n3. ?s2 - shelf: the destination shelf (delivery hub)\n\nPreconditions:\n```\n(and\n    (van-at ?v ?s1)\n)\n```\n\nEffects:\n```\n(and\n    (not (van-at ?v ?s1))\n    (van-at ?v ?s2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `shelf` for the parameter ?s1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_6": {
+            "llm_output": "1. ?v - van: the van to drive\n2. ?l1 - library: the library where the van is currently located\n3. ?l2 - library: the library to which the van is to be driven\n\nPreconditions:\n```\n(and\n    (van-at ?v ?l1)\n)\n```\n\nEffects:\n```\n(and\n    (not (van-at ?v ?l1))\n    (van-at ?v ?l2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `library` for the parameter ?l1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_7": {
+            "llm_output": "1. ?v - van: the van to drive\n2. ?s1 - shelf: the starting shelf (delivery hub)\n3. ?s2 - shelf: the destination shelf (delivery hub)\n\nPreconditions:\n```\n(and\n    (van-at ?v ?s1)\n)\n```\n\nEffects:\n```\n(and\n    (not (van-at ?v ?s1))\n    (van-at ?v ?s2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `shelf` for the parameter ?s1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "iter_8": {
+            "llm_output": "1. ?v - van: the van to drive\n2. ?l1 - library: the library where the van is currently located\n3. ?l2 - library: the library to which the van is to be driven\n\nPreconditions:\n```\n(and\n    (van-at ?v ?l1)\n)\n```\n\nEffects:\n```\n(and\n    (not (van-at ?v ?l1))\n    (van-at ?v ?l2)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_object_type",
+            "feedback_msg": "There is an invalid object type `library` for the parameter ?l1. Please revise the PDDL model to fix this error.\n\nParameters:"
+        },
+        "new_predicates": []
+    }
+}

@@ -1,0 +1,6 @@
+(at-package ?p - package ?l - location): true if the package ?p is at the location ?l
+(at-truck ?t - truck ?l - location): true if the truck ?t is at the location ?l
+(truck-in-city ?t - truck): true if the truck ?t is in a city
+(in ?p - package ?t - truck): true if the package ?p is in the truck ?t
+(at-plane ?a - plane ?l - location): true if the airplane ?a is at the location ?l
+(in-plane ?p - package ?a - plane): true if the package ?p is in the airplane ?a

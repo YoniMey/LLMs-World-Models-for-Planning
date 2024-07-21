@@ -1,0 +1,19 @@
+(container-closed ?c - container): true if the container ?c is closed
+(container-open ?c - container): true if the container ?c is open
+(object-in-container ?obj - small_object ?cont - container): true if the object ?obj is in the container ?cont
+(robot-has ?obj - small_object): true if the robot is holding or carrying the object ?obj
+(nut-on-hub ?n - nut ?h - hub): true if the nut ?n is on the hub ?h
+(hub-on-ground ?h - hub): true if the hub ?h is on the ground (not jacked up)
+(nut-tight ?n - nut): true if the nut ?n is tightened
+(nut-loose ?n - nut): true if the nut ?n is loosened
+(is-wrench ?w - tool): true if the tool ?w is a wrench
+(is-jack ?j - tool): true if the tool ?j is a jack
+(hub-jacked-up ?h - hub): true if the hub ?h is jacked up (not on the ground)
+(hub-unfastened ?h - hub): true if the hub ?h is unfastened
+(hub-fastened ?h - hub): true if the hub ?h is fastened
+(wheel-on-hub ?w - wheel ?h - hub): true if the wheel ?w is on the hub ?h
+(wheel-removed ?w - wheel): true if the wheel ?w has been removed from a hub
+(hub-free ?h - hub): true if there is no wheel on the hub ?h
+(is-pump ?p - tool): true if the tool ?p is a pump
+(wheel-intact ?w - wheel): true if the wheel ?w is not damaged
+(wheel-inflated ?w - wheel): true if the wheel ?w is inflated

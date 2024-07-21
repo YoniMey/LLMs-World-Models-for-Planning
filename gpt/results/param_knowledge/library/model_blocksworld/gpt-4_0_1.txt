@@ -1,0 +1,238 @@
+
+
+####################
+Action: Load a book into a cart
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s
+2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s
+3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c
+4. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l
+5. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l
+6. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v
+--------------------
+--------------------
+1. ?b - book: the book to load
+2. ?c - cart: the cart to load the book into
+3. ?s - shelf: the shelf where the book is located
+
+Preconditions:
+```
+(and
+    (book-at ?b ?s)
+    (cart-at ?c ?s)
+    (not (book-in-cart ?b ?c))
+)
+```
+
+Effects:
+```
+(and
+    (not (book-at ?b ?s))
+    (book-in-cart ?b ?c)
+)
+```
+
+New Predicates:
+No newly defined predicate
+
+
+####################
+Action: Unload a book from a cart
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s
+2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s
+3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c
+4. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l
+5. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l
+6. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v
+--------------------
+--------------------
+1. ?b - book: the book to unload
+2. ?c - cart: the cart from which the book is to be unloaded
+3. ?s - shelf: the shelf where the cart is located
+
+Preconditions:
+```
+(and
+    (book-in-cart ?b ?c)
+    (cart-at ?c ?s)
+)
+```
+
+Effects:
+```
+(and
+    (not (book-in-cart ?b ?c))
+    (book-at ?b ?s)
+)
+```
+
+New Predicates:
+No newly defined predicate
+
+
+####################
+Action: Load a book into a delivery van
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s
+2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s
+3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c
+4. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l
+5. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l
+6. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v
+--------------------
+--------------------
+1. ?b - book: the book to load into the van
+2. ?v - van: the van to load the book into
+3. ?l - library: the library where the van is located
+
+Preconditions:
+```
+(and
+    (book-in-cart ?b ?c)
+    (cart-at ?c ?s)
+    (shelf-in-library ?s ?l)
+    (van-at ?v ?l)
+)
+```
+
+Effects:
+```
+(and
+    (not (book-in-cart ?b ?c))
+    (book-in-van ?b ?v)
+)
+```
+
+New Predicates:
+No newly defined predicate
+
+
+####################
+Action: Unload a book from a delivery van
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s
+2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s
+3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c
+4. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l
+5. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l
+6. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v
+--------------------
+--------------------
+1. ?b - book: the book to unload
+2. ?v - van: the van from which the book is unloaded
+3. ?s - shelf: the shelf where the book is unloaded
+4. ?l - library: the library where the van is located
+
+Preconditions:
+```
+(and
+    (book-in-van ?b ?v)
+    (van-at ?v ?l)
+    (shelf-in-library ?s ?l)
+)
+```
+
+Effects:
+```
+(and
+    (not (book-in-van ?b ?v))
+    (book-at ?b ?s)
+)
+```
+
+New Predicates:
+No newly defined predicate
+
+
+####################
+Action: Push a cart from one shelf to another in a library
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s
+2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s
+3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c
+4. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l
+5. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l
+6. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v
+--------------------
+--------------------
+1. ?c - cart: the cart to be pushed
+2. ?s1 - shelf: the initial shelf where the cart is located
+3. ?s2 - shelf: the destination shelf where the cart will be pushed to
+4. ?l - library: the library where the action is taking place
+
+Preconditions:
+```
+(and
+    (cart-at ?c ?s1)
+    (shelf-in-library ?s1 ?l)
+    (shelf-in-library ?s2 ?l)
+)
+```
+
+Effects:
+```
+(and
+    (not (cart-at ?c ?s1))
+    (cart-at ?c ?s2)
+)
+```
+
+New Predicates:
+No newly defined predicate
+
+
+####################
+Action: Drive a delivery van from one library to another
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s
+2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s
+3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c
+4. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l
+5. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l
+6. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v
+--------------------
+--------------------
+1. ?v - van: the van to drive
+2. ?lib1 - library: the starting library
+3. ?lib2 - library: the destination library
+
+Preconditions:
+```
+(and
+    (van-at ?v ?lib1)
+)
+```
+
+Effects:
+```
+(and
+    (not (van-at ?v ?lib1))
+    (van-at ?v ?lib2)
+)
+```
+
+New Predicates:
+No newly defined predicate
+
+--------------------
+Extracted predicates:
+
+1. (book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s
+2. (cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s
+3. (book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c
+4. (van-at ?v - van ?l - library): true if the van ?v is at the library ?l
+5. (shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l
+6. (book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v

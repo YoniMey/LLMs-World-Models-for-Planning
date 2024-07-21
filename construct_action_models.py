@@ -91,13 +91,16 @@ def main():
     skip_actions = None
     prompt_version = 'model_blocksworld'
     include_additional_info = True
-    domain = 'tyreworld'  # 'household', 'logistics', 'tyreworld'
+    domain = 'library'  # 'household', 'logistics', 'tyreworld','library'
     engine = 'gpt-4'  # 'gpt-4' or 'gpt-3.5-turbo'
     end_when_error = False      # whether to end the experiment when having connection error
     unsupported_keywords = ['forall', 'when', 'exists', 'implies']
     max_iterations = 3 if ('gpt-4' in engine and domain != 'household') else 2  # we only do 2 iteration in Household because there are too many actions, so the experiments are expensive to run
     max_feedback = 8 if 'gpt-4' in engine else 3    # more feedback doesn't help with other models like gpt-3.5-turbo
     shorten_messages = False if 'gpt-4' in engine else True
+    claude_engine = 'claude-3-5-sonnet-20240620'    # Can be one of ['claude-3-5-sonnet-20240620', 'claude-3-opus-20240229' ,claude-3-haiku-20240307] # haiku should be the best, but super expensive    use_claude = True
+    use_claude = True
+    experiment_name = 'reproducibility_2'  # TODO: change this to the name of the experiment
 
     pddl_prompt_dir = f'prompts/common/'
     domain_data_dir = f'prompts/{domain}'
@@ -124,8 +127,13 @@ def main():
     from llm_model import GPT_Chat
     llm_gpt = GPT_Chat(engine=engine)
 
+    from llm_model import Anthropic_Chat
+    llm_anthropic = Anthropic_Chat(engine=claude_engine)
+
+    llm_obj = llm_anthropic if use_claude else llm_gpt
+
     results_dict = Dict()
-    result_log_dir = f'results/{domain}/{prompt_version}'
+    result_log_dir = f"{'antrhopic' if use_claude else 'gpt'}/results/{experiment_name}/{domain}/{prompt_version}"
     os.makedirs(result_log_dir, exist_ok=True)
 
     for i_iter in range(max_iterations):
@@ -152,7 +160,7 @@ def main():
 
             action_predicate_prompt = f'{action_prompt}\n\n{predicate_prompt}'
             action_predicate_prompt += '\n\nParameters:'
-            pddl_construction_output = construct_action_model(llm_gpt, action_predicate_prompt, action, predicate_list,
+            pddl_construction_output = construct_action_model(llm_obj, action_predicate_prompt, action, predicate_list,
                                                               shorten_message=shorten_messages, max_iteration=max_feedback,
                                                               end_when_error=end_when_error, syntax_validator=syntax_validator)
             llm_output, action_results_dict, predicate_list = pddl_construction_output

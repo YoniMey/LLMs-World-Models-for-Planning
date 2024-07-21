@@ -1,0 +1,116 @@
+{
+    "Load a book into a cart": {
+        "parameters": [
+            "?b - book: the book to load",
+            "?c - cart: the cart to load the book into",
+            "?s - shelf: the shelf where the book is located"
+        ],
+        "preconditions": "(and\n  (book-at ?b ?s)\n  (cart-at ?c ?s)\n  (not (book-in-cart ?b ?c))\n)",
+        "effects": "(and\n  (not (book-at ?b ?s))\n  (book-in-cart ?b ?c)\n)",
+        "action_desc": "This action enables the agent to load a book into a cart. For example, load book_1 into cart_1.",
+        "translated_preconditions": [
+            "the book ?b is at the shelf ?s",
+            "the cart ?c is at the shelf ?s",
+            "the book ?b is not in the cart ?c"
+        ],
+        "translated_effects": [
+            "the book ?b is not at the shelf ?s",
+            "the book ?b is in the cart ?c"
+        ]
+    },
+    "Unload a book from a cart": {
+        "parameters": [
+            "?b - book: the book to unload",
+            "?c - cart: the cart from which the book is to be unloaded",
+            "?s - shelf: the shelf where the cart is located"
+        ],
+        "preconditions": "(and\n  (book-in-cart ?b ?c)\n  (cart-at ?c ?s)\n)",
+        "effects": "(and\n  (not (book-in-cart ?b ?c))\n  (book-at ?b ?s)\n)",
+        "action_desc": "This action enables the agent to unload a book from a cart. For example, unload book_1 from cart_1.",
+        "translated_preconditions": [
+            "the book ?b is in the cart ?c",
+            "the cart ?c is at the shelf ?s"
+        ],
+        "translated_effects": [
+            "the book ?b is not in the cart ?c",
+            "the book ?b is at the shelf ?s"
+        ]
+    },
+    "Load a book into a delivery van": {
+        "parameters": [
+            "?b - book: the book to load into the van",
+            "?v - van: the van to load the book into",
+            "?l - library: the library where the van is located"
+        ],
+        "preconditions": "(and\n  (book-in-cart ?b ?c)\n  (cart-at ?c ?s)\n  (shelf-in-library ?s ?l)\n  (van-at ?v ?l)\n)",
+        "effects": "(and\n  (not (book-in-cart ?b ?c))\n  (book-in-van ?b ?v)\n)",
+        "action_desc": "This action enables the agent to load a book into a delivery van. For example, load book_1 into van_1.",
+        "translated_preconditions": [
+            "the book ?b is in the cart ?c",
+            "the cart ?c is at the shelf ?s",
+            "the shelf ?s is in the library ?l",
+            "the van ?v is at the library ?l"
+        ],
+        "translated_effects": [
+            "the book ?b is not in the cart ?c",
+            "the book ?b is in the van ?v"
+        ]
+    },
+    "Unload a book from a delivery van": {
+        "parameters": [
+            "?b - book: the book to unload",
+            "?v - van: the van from which the book is unloaded",
+            "?s - shelf: the shelf where the book is unloaded",
+            "?l - library: the library where the van is located"
+        ],
+        "preconditions": "(and\n  (book-in-van ?b ?v)\n  (van-at ?v ?l)\n  (shelf-in-library ?s ?l)\n)",
+        "effects": "(and\n  (not (book-in-van ?b ?v))\n  (book-at ?b ?s)\n)",
+        "action_desc": "This action enables the agent to unload a book from a delivery van. For example, unload book_1 from van_1.",
+        "translated_preconditions": [
+            "the book ?b is in the van ?v",
+            "the van ?v is at the library ?l",
+            "the shelf ?s is in the library ?l"
+        ],
+        "translated_effects": [
+            "the book ?b is not in the van ?v",
+            "the book ?b is at the shelf ?s"
+        ]
+    },
+    "Push a cart from one shelf to another in a library": {
+        "parameters": [
+            "?c - cart: the cart to be pushed",
+            "?s1 - shelf: the initial shelf where the cart is located",
+            "?s2 - shelf: the destination shelf where the cart will be pushed to",
+            "?l - library: the library where the action is taking place"
+        ],
+        "preconditions": "(and\n  (cart-at ?c ?s1)\n  (shelf-in-library ?s1 ?l)\n  (shelf-in-library ?s2 ?l)\n)",
+        "effects": "(and\n  (not (cart-at ?c ?s1))\n  (cart-at ?c ?s2)\n)",
+        "action_desc": "This action enables the agent to push a cart from one shelf to another in a library. For example, push cart_1 from shelf_1 to shelf_2 in library_1.",
+        "translated_preconditions": [
+            "the cart ?c is at the shelf ?s1",
+            "the shelf ?s1 is in the library ?l",
+            "the shelf ?s2 is also in the library ?l"
+        ],
+        "translated_effects": [
+            "the cart ?c is not at the shelf ?s1",
+            "the cart ?c is at the shelf ?s2"
+        ]
+    },
+    "Drive a delivery van from one library to another": {
+        "parameters": [
+            "?v - van: the van to drive",
+            "?lib1 - library: the starting library",
+            "?lib2 - library: the destination library"
+        ],
+        "preconditions": "(and\n  (van-at ?v ?lib1)\n)",
+        "effects": "(and\n  (not (van-at ?v ?lib1))\n  (van-at ?v ?lib2)\n)",
+        "action_desc": "This action enables the agent to drive a delivery van from one library's delivery hub to another. The delivery hubs are shelves in the library. For example, drive van_1 from shelf_0 to shelf_1.",
+        "translated_preconditions": [
+            "the van ?v is at the library ?lib1"
+        ],
+        "translated_effects": [
+            "the van ?v is not at the library ?lib1",
+            "the van ?v is at the library ?lib2"
+        ]
+    }
+}

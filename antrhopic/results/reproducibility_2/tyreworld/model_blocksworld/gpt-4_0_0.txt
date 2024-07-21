@@ -1,0 +1,698 @@
+
+
+####################
+Action: Open a container
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+No predicate has been defined yet
+--------------------
+--------------------
+Based on the given domain information, here's the PDDL representation for the action of opening a container:
+
+Parameters:
+1. ?c - container: the container to be opened
+
+Preconditions:
+```
+(and
+    (container-closed ?c)
+)
+```
+
+Effects:
+```
+(and
+    (not (container-closed ?c))
+    (container-open ?c)
+)
+```
+
+New Predicates:
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+
+Explanation:
+- The action takes one parameter: the container to be opened.
+- The precondition checks if the container is currently closed.
+- The effects state that the container is no longer closed and is now open.
+- Two new predicates are introduced to represent the state of the container (open or closed).
+
+
+####################
+Action: Close a container
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+--------------------
+--------------------
+Parameters:
+1. ?c - container: the container to close
+
+Preconditions:
+```
+(and
+    (container-open ?c)
+)
+```
+
+Effects:
+```
+(and
+    (not (container-open ?c))
+    (container-closed ?c)
+)
+```
+
+New Predicates:
+No newly defined predicate
+
+
+####################
+Action: Fetch an object from a container
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+--------------------
+--------------------
+Based on the given domain information, here are the parameters, preconditions, effects, and new predicates for the action of taking an object from a container:
+
+Parameters:
+1. ?obj - small_object: the object to be taken
+2. ?cont - container: the container from which the object is taken
+
+Preconditions:
+```
+(and
+    (container-open ?cont)
+    (object-in-container ?obj ?cont)
+)
+```
+
+Effects:
+```
+(and
+    (not (object-in-container ?obj ?cont))
+    (robot-has ?obj)
+)
+```
+
+New Predicates:
+1. (object-in-container ?obj - small_object ?cont - container): true if the object ?obj is in the container ?cont
+2. (robot-has ?obj - small_object): true if the robot is holding or carrying the object ?obj
+
+This action allows the robot to take any small object (which includes tools, wheels, and nuts) from an open container. The preconditions ensure that the container is open and the object is in the container before it can be taken. The effects show that after the action, the object is no longer in the container and is now held by the robot.
+
+
+####################
+Action: Put away an object into a container
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+3. (object-in-container ?obj - small_object ?cont - container): true if the object ?obj is in the container ?cont
+4. (robot-has ?obj - small_object): true if the robot is holding or carrying the object ?obj
+--------------------
+--------------------
+Based on the given domain information and action description, here's the PDDL representation for the action of putting an object into a container:
+
+Action: Put-object-in-container
+
+Parameters:
+1. ?obj - small_object: the object to be put into the container
+2. ?cont - container: the container to put the object into
+
+Preconditions:
+```
+(and
+    (robot-has ?obj)
+    (container-open ?cont)
+    (not (object-in-container ?obj ?cont))
+)
+```
+
+Effects:
+```
+(and
+    (not (robot-has ?obj))
+    (object-in-container ?obj ?cont)
+)
+```
+
+New Predicates:
+No newly defined predicates
+
+Explanation:
+- The preconditions ensure that the robot is holding the object, the container is open, and the object is not already in the container.
+- The effects show that the robot no longer has the object, and the object is now in the container.
+- We didn't need to define any new predicates for this action, as the existing ones were sufficient.
+
+
+####################
+Action: Loosen a nut in a hub
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+3. (object-in-container ?obj - small_object ?cont - container): true if the object ?obj is in the container ?cont
+4. (robot-has ?obj - small_object): true if the robot is holding or carrying the object ?obj
+--------------------
+--------------------
+I apologize for the error. You're right, and I'll correct it. Here's the revised PDDL representation for the "loosen nut" action:
+
+Parameters:
+1. ?n - nut: the nut to be loosened
+2. ?h - hub: the hub where the nut is located
+3. ?w - tool: the wrench used to loosen the nut
+
+Preconditions:
+```
+(and
+    (nut-on-hub ?n ?h)
+    (hub-on-ground ?h)
+    (nut-tight ?n)
+    (robot-has ?w)
+    (is-wrench ?w)
+)
+```
+
+Effects:
+```
+(and
+    (not (nut-tight ?n))
+    (nut-loose ?n)
+)
+```
+
+New Predicates:
+1. (nut-on-hub ?n - nut ?h - hub): true if the nut ?n is on the hub ?h
+2. (hub-on-ground ?h - hub): true if the hub ?h is on the ground (not jacked up)
+3. (nut-tight ?n - nut): true if the nut ?n is tightened
+4. (nut-loose ?n - nut): true if the nut ?n is loosened
+5. (is-wrench ?w - tool): true if the tool ?w is a wrench
+
+Explanation of the change:
+- The parameter ?w is now correctly typed as "tool" instead of "wrench", as "tool" is a subtype of "small_object" in the given domain.
+- The predicate (is-wrench ?w) is kept to ensure that the tool being used is specifically a wrench.
+
+All other aspects of the action representation remain the same as in the previous version.
+
+
+####################
+Action: Tighten a nut in a hub
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+3. (object-in-container ?obj - small_object ?cont - container): true if the object ?obj is in the container ?cont
+4. (robot-has ?obj - small_object): true if the robot is holding or carrying the object ?obj
+5. (nut-on-hub ?n - nut ?h - hub): true if the nut ?n is on the hub ?h
+6. (hub-on-ground ?h - hub): true if the hub ?h is on the ground (not jacked up)
+7. (nut-tight ?n - nut): true if the nut ?n is tightened
+8. (nut-loose ?n - nut): true if the nut ?n is loosened
+9. (is-wrench ?w - tool): true if the tool ?w is a wrench
+--------------------
+--------------------
+Based on the given domain information and the action description, here's the PDDL representation for the action of tightening a nut in a hub:
+
+Parameters:
+1. ?n - nut: the nut to be tightened
+2. ?h - hub: the hub where the nut is located
+3. ?w - tool: the wrench used for tightening
+
+Preconditions:
+```
+(and
+    (nut-on-hub ?n ?h)
+    (hub-on-ground ?h)
+    (nut-loose ?n)
+    (robot-has ?w)
+    (is-wrench ?w)
+)
+```
+
+Effects:
+```
+(and
+    (nut-tight ?n)
+    (not (nut-loose ?n))
+)
+```
+
+New Predicates:
+No newly defined predicates
+
+Explanation:
+- The preconditions ensure that:
+  1. The nut is on the correct hub
+  2. The hub is on the ground (not jacked up)
+  3. The nut is currently loose
+  4. The robot has a wrench
+  5. The tool the robot has is indeed a wrench
+- The effects show that:
+  1. The nut becomes tight
+  2. The nut is no longer loose
+
+This action representation captures the essential elements of tightening a nut on a hub, ensuring safety (hub on ground) and using the correct tool (wrench).
+
+
+####################
+Action: Jack up a hub
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+3. (object-in-container ?obj - small_object ?cont - container): true if the object ?obj is in the container ?cont
+4. (robot-has ?obj - small_object): true if the robot is holding or carrying the object ?obj
+5. (nut-on-hub ?n - nut ?h - hub): true if the nut ?n is on the hub ?h
+6. (hub-on-ground ?h - hub): true if the hub ?h is on the ground (not jacked up)
+7. (nut-tight ?n - nut): true if the nut ?n is tightened
+8. (nut-loose ?n - nut): true if the nut ?n is loosened
+9. (is-wrench ?w - tool): true if the tool ?w is a wrench
+--------------------
+--------------------
+Based on the given domain information and the action to jack up a hub, here's the PDDL representation:
+
+Parameters:
+1. ?h - hub: the hub to be jacked up
+2. ?j - tool: the jack used to lift the hub
+
+Preconditions:
+```
+(and
+    (hub-on-ground ?h)
+    (robot-has ?j)
+    (is-jack ?j)
+)
+```
+
+Effects:
+```
+(and
+    (not (hub-on-ground ?h))
+    (hub-jacked-up ?h)
+)
+```
+
+New Predicates:
+1. (is-jack ?j - tool): true if the tool ?j is a jack
+2. (hub-jacked-up ?h - hub): true if the hub ?h is jacked up (not on the ground)
+
+Explanation:
+- The action requires two parameters: the hub to be jacked up and the jack tool.
+- The preconditions ensure that the hub is initially on the ground, the robot has the jack, and the tool is indeed a jack.
+- The effects show that after the action, the hub is no longer on the ground and is now jacked up.
+- Two new predicates are introduced: one to identify a jack tool and another to represent the state of a hub being jacked up.
+
+
+####################
+Action: Jack down a hub
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+3. (object-in-container ?obj - small_object ?cont - container): true if the object ?obj is in the container ?cont
+4. (robot-has ?obj - small_object): true if the robot is holding or carrying the object ?obj
+5. (nut-on-hub ?n - nut ?h - hub): true if the nut ?n is on the hub ?h
+6. (hub-on-ground ?h - hub): true if the hub ?h is on the ground (not jacked up)
+7. (nut-tight ?n - nut): true if the nut ?n is tightened
+8. (nut-loose ?n - nut): true if the nut ?n is loosened
+9. (is-wrench ?w - tool): true if the tool ?w is a wrench
+10. (is-jack ?j - tool): true if the tool ?j is a jack
+11. (hub-jacked-up ?h - hub): true if the hub ?h is jacked up (not on the ground)
+--------------------
+--------------------
+Based on the given domain information and the action description, here's the PDDL representation for the "jack down a hub" action:
+
+Parameters:
+1. ?h - hub: the hub to jack down
+2. ?j - tool: the jack used to lower the hub
+
+Preconditions:
+```
+(and
+    (hub-jacked-up ?h)
+    (is-jack ?j)
+    (robot-has ?j)
+)
+```
+
+Effects:
+```
+(and
+    (not (hub-jacked-up ?h))
+    (hub-on-ground ?h)
+)
+```
+
+New Predicates:
+No newly defined predicates
+
+Explanation:
+- The action requires two parameters: the hub to be jacked down and the jack tool.
+- Preconditions ensure that the hub is currently jacked up, the tool is indeed a jack, and the robot has the jack.
+- Effects show that after the action, the hub is no longer jacked up and is now on the ground.
+- We reused existing predicates and didn't need to define any new ones for this action.
+
+
+####################
+Action: Unfasten a hub
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+3. (object-in-container ?obj - small_object ?cont - container): true if the object ?obj is in the container ?cont
+4. (robot-has ?obj - small_object): true if the robot is holding or carrying the object ?obj
+5. (nut-on-hub ?n - nut ?h - hub): true if the nut ?n is on the hub ?h
+6. (hub-on-ground ?h - hub): true if the hub ?h is on the ground (not jacked up)
+7. (nut-tight ?n - nut): true if the nut ?n is tightened
+8. (nut-loose ?n - nut): true if the nut ?n is loosened
+9. (is-wrench ?w - tool): true if the tool ?w is a wrench
+10. (is-jack ?j - tool): true if the tool ?j is a jack
+11. (hub-jacked-up ?h - hub): true if the hub ?h is jacked up (not on the ground)
+--------------------
+--------------------
+Based on the given domain information and action description, here's the PDDL representation for the "unfasten hub" action:
+
+Parameters:
+1. ?h - hub: the hub to be unfastened
+2. ?n - nut: the nut on the hub
+3. ?w - tool: the wrench used to remove the nut
+
+Preconditions:
+```
+(and
+    (hub-jacked-up ?h)
+    (nut-on-hub ?n ?h)
+    (nut-loose ?n)
+    (is-wrench ?w)
+    (robot-has ?w)
+)
+```
+
+Effects:
+```
+(and
+    (not (nut-on-hub ?n ?h))
+    (robot-has ?n)
+    (hub-unfastened ?h)
+)
+```
+
+New Predicates:
+1. (hub-unfastened ?h - hub): true if the hub ?h is unfastened
+
+This action representation captures the following aspects:
+
+1. The hub must be jacked up before unfastening (safety precaution).
+2. The nut must be on the hub and already loosened.
+3. The robot must have a wrench to remove the nut.
+4. After the action, the nut is no longer on the hub, but held by the robot.
+5. The hub is marked as unfastened.
+
+The new predicate (hub-unfastened ?h - hub) is introduced to explicitly represent the state of the hub after the unfastening action.
+
+
+####################
+Action: Fasten a hub
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+3. (object-in-container ?obj - small_object ?cont - container): true if the object ?obj is in the container ?cont
+4. (robot-has ?obj - small_object): true if the robot is holding or carrying the object ?obj
+5. (nut-on-hub ?n - nut ?h - hub): true if the nut ?n is on the hub ?h
+6. (hub-on-ground ?h - hub): true if the hub ?h is on the ground (not jacked up)
+7. (nut-tight ?n - nut): true if the nut ?n is tightened
+8. (nut-loose ?n - nut): true if the nut ?n is loosened
+9. (is-wrench ?w - tool): true if the tool ?w is a wrench
+10. (is-jack ?j - tool): true if the tool ?j is a jack
+11. (hub-jacked-up ?h - hub): true if the hub ?h is jacked up (not on the ground)
+12. (hub-unfastened ?h - hub): true if the hub ?h is unfastened
+--------------------
+--------------------
+Based on the given domain information and action description, here's the PDDL representation for the "fasten hub" action:
+
+Parameters:
+1. ?h - hub: the hub to be fastened
+2. ?n - nut: the nut to be used for fastening
+
+Preconditions:
+```
+(and
+    (hub-jacked-up ?h)
+    (nut-on-hub ?n ?h)
+    (nut-loose ?n)
+    (hub-unfastened ?h)
+)
+```
+
+Effects:
+```
+(and
+    (not (hub-unfastened ?h))
+    (hub-fastened ?h)
+)
+```
+
+New Predicates:
+1. (hub-fastened ?h - hub): true if the hub ?h is fastened
+
+Explanation:
+- The preconditions ensure that the hub is jacked up, the nut is on the hub, the nut is loose, and the hub is currently unfastened.
+- The effects indicate that the hub is no longer unfastened and is now fastened.
+- A new predicate (hub-fastened ?h - hub) is introduced to represent the state of a hub being fastened.
+
+Note that this action doesn't involve tightening the nut, as mentioned in the action description. It only fastens the hub, which is a separate step from tightening the nut.
+
+
+####################
+Action: Remove wheel from hub
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+3. (object-in-container ?obj - small_object ?cont - container): true if the object ?obj is in the container ?cont
+4. (robot-has ?obj - small_object): true if the robot is holding or carrying the object ?obj
+5. (nut-on-hub ?n - nut ?h - hub): true if the nut ?n is on the hub ?h
+6. (hub-on-ground ?h - hub): true if the hub ?h is on the ground (not jacked up)
+7. (nut-tight ?n - nut): true if the nut ?n is tightened
+8. (nut-loose ?n - nut): true if the nut ?n is loosened
+9. (is-wrench ?w - tool): true if the tool ?w is a wrench
+10. (is-jack ?j - tool): true if the tool ?j is a jack
+11. (hub-jacked-up ?h - hub): true if the hub ?h is jacked up (not on the ground)
+12. (hub-unfastened ?h - hub): true if the hub ?h is unfastened
+13. (hub-fastened ?h - hub): true if the hub ?h is fastened
+--------------------
+--------------------
+Based on the given domain information and the action description, here's the PDDL representation for the action of removing a wheel from a hub:
+
+Parameters:
+1. ?w - wheel: the wheel to be removed
+2. ?h - hub: the hub from which the wheel is to be removed
+
+Preconditions:
+```
+(and
+    (wheel-on-hub ?w ?h)
+    (hub-unfastened ?h)
+    (hub-jacked-up ?h)
+)
+```
+
+Effects:
+```
+(and
+    (not (wheel-on-hub ?w ?h))
+    (wheel-removed ?w)
+    (hub-free ?h)
+)
+```
+
+New Predicates:
+1. (wheel-on-hub ?w - wheel ?h - hub): true if the wheel ?w is on the hub ?h
+2. (wheel-removed ?w - wheel): true if the wheel ?w has been removed from a hub
+3. (hub-free ?h - hub): true if there is no wheel on the hub ?h
+
+This action representation captures the key aspects of removing a wheel from a hub:
+
+1. The preconditions ensure that:
+   - The wheel is currently on the hub
+   - The hub is unfastened (implying that the nut has been removed)
+   - The hub is jacked up for safety
+
+2. The effects reflect that:
+   - The wheel is no longer on the hub
+   - The wheel is now in a removed state
+   - The hub is now free (has no wheel on it)
+
+These predicates and conditions align with the domain description and the specific requirements of the wheel removal action.
+
+
+####################
+Action: Put wheel on hub
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+3. (object-in-container ?obj - small_object ?cont - container): true if the object ?obj is in the container ?cont
+4. (robot-has ?obj - small_object): true if the robot is holding or carrying the object ?obj
+5. (nut-on-hub ?n - nut ?h - hub): true if the nut ?n is on the hub ?h
+6. (hub-on-ground ?h - hub): true if the hub ?h is on the ground (not jacked up)
+7. (nut-tight ?n - nut): true if the nut ?n is tightened
+8. (nut-loose ?n - nut): true if the nut ?n is loosened
+9. (is-wrench ?w - tool): true if the tool ?w is a wrench
+10. (is-jack ?j - tool): true if the tool ?j is a jack
+11. (hub-jacked-up ?h - hub): true if the hub ?h is jacked up (not on the ground)
+12. (hub-unfastened ?h - hub): true if the hub ?h is unfastened
+13. (hub-fastened ?h - hub): true if the hub ?h is fastened
+14. (wheel-on-hub ?w - wheel ?h - hub): true if the wheel ?w is on the hub ?h
+15. (wheel-removed ?w - wheel): true if the wheel ?w has been removed from a hub
+16. (hub-free ?h - hub): true if there is no wheel on the hub ?h
+--------------------
+--------------------
+Based on the given domain information and the action description, here's the PDDL representation for the action of putting a wheel on an unfastened hub:
+
+Parameters:
+1. ?w - wheel: the wheel to be put on the hub
+2. ?h - hub: the hub on which the wheel will be put
+
+Preconditions:
+```
+(and
+    (robot-has ?w)
+    (hub-jacked-up ?h)
+    (hub-unfastened ?h)
+    (hub-free ?h)
+    (wheel-removed ?w)
+)
+```
+
+Effects:
+```
+(and
+    (not (robot-has ?w))
+    (not (hub-free ?h))
+    (not (wheel-removed ?w))
+    (wheel-on-hub ?w ?h)
+)
+```
+
+New Predicates:
+No newly defined predicates
+
+This action representation captures the following:
+1. The robot must be holding the wheel.
+2. The hub must be jacked up for safety.
+3. The hub must be unfastened to allow the wheel to be put on.
+4. The hub must be free (no wheel currently on it).
+5. The wheel must have been previously removed from a hub.
+
+After the action:
+1. The robot is no longer holding the wheel.
+2. The hub is no longer free.
+3. The wheel is no longer in the "removed" state.
+4. The wheel is now on the hub.
+
+
+####################
+Action: Inflate wheel
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+3. (object-in-container ?obj - small_object ?cont - container): true if the object ?obj is in the container ?cont
+4. (robot-has ?obj - small_object): true if the robot is holding or carrying the object ?obj
+5. (nut-on-hub ?n - nut ?h - hub): true if the nut ?n is on the hub ?h
+6. (hub-on-ground ?h - hub): true if the hub ?h is on the ground (not jacked up)
+7. (nut-tight ?n - nut): true if the nut ?n is tightened
+8. (nut-loose ?n - nut): true if the nut ?n is loosened
+9. (is-wrench ?w - tool): true if the tool ?w is a wrench
+10. (is-jack ?j - tool): true if the tool ?j is a jack
+11. (hub-jacked-up ?h - hub): true if the hub ?h is jacked up (not on the ground)
+12. (hub-unfastened ?h - hub): true if the hub ?h is unfastened
+13. (hub-fastened ?h - hub): true if the hub ?h is fastened
+14. (wheel-on-hub ?w - wheel ?h - hub): true if the wheel ?w is on the hub ?h
+15. (wheel-removed ?w - wheel): true if the wheel ?w has been removed from a hub
+16. (hub-free ?h - hub): true if there is no wheel on the hub ?h
+--------------------
+--------------------
+Based on the given domain information and the action description, here's the PDDL representation for the "inflate wheel" action:
+
+Parameters:
+1. ?w - wheel: the wheel to inflate
+2. ?p - tool: the pump used to inflate the wheel
+
+Preconditions:
+```
+(and
+    (robot-has ?p)
+    (is-pump ?p)
+    (wheel-intact ?w)
+    (not (wheel-inflated ?w))
+)
+```
+
+Effects:
+```
+(and
+    (wheel-inflated ?w)
+)
+```
+
+New Predicates:
+1. (is-pump ?p - tool): true if the tool ?p is a pump
+2. (wheel-intact ?w - wheel): true if the wheel ?w is not damaged
+3. (wheel-inflated ?w - wheel): true if the wheel ?w is inflated
+
+Explanation:
+- We introduce two parameters: ?w for the wheel to be inflated, and ?p for the pump tool.
+- In the preconditions, we ensure that:
+  1. The robot has the pump
+  2. The tool is indeed a pump
+  3. The wheel is intact (not damaged)
+  4. The wheel is not already inflated
+- The effect is simply that the wheel becomes inflated.
+- We introduced three new predicates:
+  1. To check if a tool is a pump
+  2. To check if a wheel is intact
+  3. To represent the inflated state of a wheel
+
+This action allows the robot to inflate an intact wheel using a pump that it's holding.
+
+--------------------
+Extracted predicates:
+
+1. (container-closed ?c - container): true if the container ?c is closed
+2. (container-open ?c - container): true if the container ?c is open
+3. (object-in-container ?obj - small_object ?cont - container): true if the object ?obj is in the container ?cont
+4. (robot-has ?obj - small_object): true if the robot is holding or carrying the object ?obj
+5. (nut-on-hub ?n - nut ?h - hub): true if the nut ?n is on the hub ?h
+6. (hub-on-ground ?h - hub): true if the hub ?h is on the ground (not jacked up)
+7. (nut-tight ?n - nut): true if the nut ?n is tightened
+8. (nut-loose ?n - nut): true if the nut ?n is loosened
+9. (is-wrench ?w - tool): true if the tool ?w is a wrench
+10. (is-jack ?j - tool): true if the tool ?j is a jack
+11. (hub-jacked-up ?h - hub): true if the hub ?h is jacked up (not on the ground)
+12. (hub-unfastened ?h - hub): true if the hub ?h is unfastened
+13. (hub-fastened ?h - hub): true if the hub ?h is fastened
+14. (wheel-on-hub ?w - wheel ?h - hub): true if the wheel ?w is on the hub ?h
+15. (wheel-removed ?w - wheel): true if the wheel ?w has been removed from a hub
+16. (hub-free ?h - hub): true if there is no wheel on the hub ?h
+17. (is-pump ?p - tool): true if the tool ?p is a pump
+18. (wheel-intact ?w - wheel): true if the wheel ?w is not damaged
+19. (wheel-inflated ?w - wheel): true if the wheel ?w is inflated

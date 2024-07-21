@@ -1,0 +1,8 @@
+(book-on-shelf ?b - book ?s - shelf): true if book ?b is on shelf ?s
+(cart-at-shelf ?c - cart ?s - shelf): true if cart ?c is at shelf ?s
+(shelf-in-library ?s - shelf ?l - library): true if shelf ?s is in library ?l
+(cart-in-library ?c - cart ?l - library): true if cart ?c is in library ?l
+(book-in-cart ?b - book ?c - cart): true if book ?b is in cart ?c
+(van-at-library ?v - van ?l - library): true if van ?v is at library ?l
+(shelf-is-delivery-hub ?s - shelf): true if shelf ?s is the designated delivery hub
+(book-in-van ?b - object ?v - van): true if book ?b is loaded in van ?v

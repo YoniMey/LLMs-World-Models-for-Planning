@@ -1,0 +1,6 @@
+(book-at ?b - book ?s - shelf): true if the book ?b is at the shelf ?s
+(cart-at ?c - cart ?s - shelf): true if the cart ?c is at the shelf ?s
+(book-in-cart ?b - book ?c - cart): true if the book ?b is in the cart ?c
+(van-at ?v - van ?l - library): true if the van ?v is at the library ?l
+(shelf-in-library ?s - shelf ?l - library): true if the shelf ?s is in the library ?l
+(book-in-van ?b - book ?v - van): true if the book ?b is in the van ?v

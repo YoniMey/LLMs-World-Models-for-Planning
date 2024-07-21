@@ -1,0 +1,274 @@
+
+
+####################
+Action: Load a package into a truck
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l
+2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l
+3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package
+4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t
+5. (plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l
+6. (plane-has-space ?a - plane): true if the airplane ?a has available space to load a package
+7. (package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a
+8. (city-has-airport ?c - city ?l - location): true if the location ?l is the airport of the city ?c
+9. (city-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route
+--------------------
+--------------------
+1. ?p - package: the package to be loaded into the truck
+2. ?t - truck: the truck to load the package into
+3. ?l - location: the location where the package and truck are located
+
+Preconditions:
+```
+(and
+    (package-at ?p ?l)
+    (truck-at ?t ?l)
+    (truck-has-space ?t)
+)
+```
+
+Effects:
+```
+(and
+    (not (package-at ?p ?l))
+    (package-in-truck ?p ?t)
+    (not (truck-has-space ?t))
+)
+```
+
+New Predicates:
+No newly defined predicates
+
+
+####################
+Action: Unload a package from a truck
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l
+2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l
+3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package
+4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t
+5. (plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l
+6. (plane-has-space ?a - plane): true if the airplane ?a has available space to load a package
+7. (package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a
+8. (city-has-airport ?c - city ?l - location): true if the location ?l is the airport of the city ?c
+9. (city-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route
+--------------------
+--------------------
+1. ?p - package: the package to be unloaded
+2. ?t - truck: the truck from which the package is to be unloaded
+3. ?l - location: the location where the truck is located
+
+Preconditions:
+```
+(and
+    (package-in-truck ?p ?t)
+    (truck-at ?t ?l)
+)
+```
+
+Effects:
+```
+(and
+    (not (package-in-truck ?p ?t))
+    (package-at ?p ?l)
+    (truck-has-space ?t)
+)
+```
+
+New Predicates:
+No newly defined predicate
+
+
+####################
+Action: Load a package into an airplane
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l
+2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l
+3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package
+4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t
+5. (plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l
+6. (plane-has-space ?a - plane): true if the airplane ?a has available space to load a package
+7. (package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a
+8. (city-has-airport ?c - city ?l - location): true if the location ?l is the airport of the city ?c
+9. (city-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route
+--------------------
+--------------------
+Parameters:
+1. ?p - package: the package to be loaded into the airplane
+2. ?a - plane: the airplane to load the package into
+3. ?l - location: the location where the package and airplane are located
+
+Preconditions:
+```
+(and
+    (package-at ?p ?l)
+    (plane-at ?a ?l)
+    (plane-has-space ?a)
+)
+```
+
+Effects:
+```
+(and
+    (not (package-at ?p ?l))
+    (package-in-plane ?p ?a)
+    (not (plane-has-space ?a))
+)
+```
+
+New Predicates:
+No newly defined predicates
+
+
+####################
+Action: Unload a package from an airplane
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l
+2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l
+3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package
+4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t
+5. (plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l
+6. (plane-has-space ?a - plane): true if the airplane ?a has available space to load a package
+7. (package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a
+8. (city-has-airport ?c - city ?l - location): true if the location ?l is the airport of the city ?c
+9. (city-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route
+--------------------
+--------------------
+1. ?p - package: the package to be unloaded from the airplane
+2. ?a - plane: the airplane from which the package is to be unloaded
+3. ?l - location: the location where the airplane is currently located
+4. ?c - city: the city that has the airport location ?l
+
+Preconditions:
+```
+(and
+    (package-in-plane ?p ?a)
+    (plane-at ?a ?l)
+    (city-has-airport ?c ?l)
+)
+```
+
+Effects:
+```
+(and
+    (not (package-in-plane ?p ?a))
+    (package-at ?p ?l)
+    (plane-has-space ?a)
+)
+```
+
+New Predicates:
+No newly defined predicate
+
+
+####################
+Action: Drive a truck from one location to another in a city
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l
+2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l
+3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package
+4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t
+5. (plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l
+6. (plane-has-space ?a - plane): true if the airplane ?a has available space to load a package
+7. (package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a
+8. (city-has-airport ?c - city ?l - location): true if the location ?l is the airport of the city ?c
+9. (city-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route
+--------------------
+--------------------
+1. ?t - truck: the truck to be driven
+2. ?from - location: the location the truck is currently at
+3. ?to - location: the location the truck will be driven to
+4. ?c - city: the city containing the locations ?from and ?to
+
+Preconditions:
+```
+(and
+    (truck-at ?t ?from)
+    (city-has-airport ?c ?from)
+    (city-has-airport ?c ?to)
+    (city-connected ?c ?c)
+)
+```
+
+Effects:
+```
+(and
+    (not (truck-at ?t ?from))
+    (truck-at ?t ?to)
+)
+```
+
+New Predicates:
+No newly defined predicates
+
+
+####################
+Action: Fly an airplane from one city to another
+####################
+--------------------
+You can create and define new predicates, but you may also reuse the following predicates:
+1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l
+2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l
+3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package
+4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t
+5. (plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l
+6. (plane-has-space ?a - plane): true if the airplane ?a has available space to load a package
+7. (package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a
+8. (city-has-airport ?c - city ?l - location): true if the location ?l is the airport of the city ?c
+9. (city-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route
+--------------------
+--------------------
+1. ?a - plane: the airplane to fly
+2. ?c1 - city: the city the airplane is currently at
+3. ?c2 - city: the city the airplane is flying to
+4. ?l1 - location: the location where the airplane is currently at
+5. ?l2 - location: the location where the airplane is flying to
+
+Preconditions:
+```
+(and
+    (plane-at ?a ?l1)
+    (city-has-airport ?c1 ?l1)
+    (city-has-airport ?c2 ?l2)
+    (cities-connected ?c1 ?c2)
+)
+```
+
+Effects:
+```
+(and
+    (not (plane-at ?a ?l1))
+    (plane-at ?a ?l2)
+)
+```
+
+New Predicates:
+1. (cities-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route
+
+Reused Predicates:
+1. (plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l
+2. (city-has-airport ?c - city ?l - location): true if the location ?l is the airport of the city ?c
+
+--------------------
+Extracted predicates:
+
+1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l
+2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l
+3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package
+4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t
+5. (plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l
+6. (plane-has-space ?a - plane): true if the airplane ?a has available space to load a package
+7. (package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a
+8. (city-has-airport ?c - city ?l - location): true if the location ?l is the airport of the city ?c
+9. (city-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route
+10. (cities-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route

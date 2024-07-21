@@ -1,0 +1,10 @@
+(package-at ?p - package ?l - location): true if the package ?p is located at location ?l
+(truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l
+(truck-has-space ?t - truck): true if the truck ?t has available space to load a package
+(package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t
+(plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l
+(plane-has-space ?a - plane): true if the airplane ?a has available space to load a package
+(package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a
+(city-has-airport ?c - city ?l - location): true if the location ?l is the airport of the city ?c
+(city-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route
+(cities-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route

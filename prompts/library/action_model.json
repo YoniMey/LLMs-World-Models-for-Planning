@@ -1,0 +1,30 @@
+{
+    "Load a book into a cart": {
+        "desc": "This action enables the agent to load a book into a cart. For example, load book_1 into cart_1.",
+        "extra_info": []
+    },
+    "Unload a book from a cart": {
+        "desc": "This action enables the agent to unload a book from a cart. For example, unload book_1 from cart_1.",
+        "extra_info": []
+    },
+
+    "Load a book into a delivery van": {
+        "desc": "This action enables the agent to load a book into a delivery van. For example, load book_1 into van_1.",
+        "extra_info": []
+    },
+
+    "Unload a book from a delivery van": {
+        "desc": "This action enables the agent to unload a book from a delivery van. For example, unload book_1 from van_1.",
+        "extra_info": []
+    },
+
+    "Push a cart from one shelf to another in a library": {
+        "desc": "This action enables the agent to push a cart from one shelf to another in a library. For example, push cart_1 from shelf_1 to shelf_2 in library_1.",
+        "extra_info": []
+    },
+
+    "Drive a delivery van from one library to another": {
+        "desc": "This action enables the agent to drive a delivery van from one library's delivery hub to another. The delivery hubs are shelves in the library. For example, drive van_1 from shelf_0 to shelf_1.",
+        "extra_info": []
+    }
+}

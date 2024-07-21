@@ -1,13 +1,11 @@
 import os
 import traceback
-
+from anthropic import Anthropic
 import openai
 from openai import OpenAI
-from wrapt_timeout_decorator import timeout
-openai.api_key = os.environ["OPENAI_API_KEY"]
+openai_api_key = ""
+entrhopic_api_key = ""
 
-
-@timeout(dec_timeout=30, use_signals=False)
 def connect_openai(client, engine, messages, temperature, max_tokens,
                    top_p, frequency_penalty, presence_penalty, stop):
     return client.chat.completions.create(
@@ -26,7 +24,7 @@ class GPT_Chat:
     def __init__(self, engine, stop=None, max_tokens=1000, temperature=0, top_p=1,
                  frequency_penalty=0.0, presence_penalty=0.0):
         self.engine = engine
-        self.gpt_client = OpenAI()
+        self.gpt_client = OpenAI(api_key=openai_api_key)
         self.max_tokens = max_tokens
         self.temperature = temperature
         self.top_p = top_p
@@ -68,6 +66,49 @@ class GPT_Chat:
         return conn_success, llm_output
 
 
+class Anthropic_Chat:
+
+    def __init__(self, engine, stop=None, max_tokens=1000, temperature=0, top_p=1,
+                 frequency_penalty=0.0, presence_penalty=0.0):
+        self.engine = engine
+        self.anthropic_client = Anthropic(api_key=entrhopic_api_key)
+        self.max_tokens = max_tokens
+        self.temperature = temperature
+        self.top_p = top_p
+        self.freq_penalty = frequency_penalty
+        self.presence_penalty = presence_penalty
+        self.stop = stop
+
+    def get_response(self, prompt, messages=None, end_when_error=False, max_retry=5):
+        conn_success, llm_output = False, ''
+        if messages is not None:
+            messages = messages
+        else:
+            messages = [{'role': 'user', 'content': prompt}]
+        n_retry = 0
+        while not conn_success:
+            n_retry += 1
+            if n_retry >= max_retry:
+                break
+            try:
+                print('[INFO] connecting to the Anthropic LLM ...')
+                response = self.anthropic_client.messages.create(
+                    model=self.engine,
+                    messages=messages,
+                    temperature=self.temperature,
+                    max_tokens=self.max_tokens,
+                )
+                llm_output = response.content[0].text
+                conn_success = True
+            except Exception as e:
+                print(f'[ERROR] LLM error: {e}')
+                print(traceback.format_exc())
+                if end_when_error:
+                    break
+        return conn_success, llm_output
+
+
+
 def main():
     llm_gpt = GPT_Chat(engine='gpt-4')
     _, llm_output = llm_gpt.get_response('test', end_when_error=True)
@@ -76,5 +117,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-

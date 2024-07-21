@@ -1,0 +1,78 @@
+{
+    "Load a package into a truck": {
+        "predicate_prompt": "You can create and define new predicates, but you may also reuse the following predicates:\nNo predicate has been defined yet",
+        "action_desc": "This action enables the agent to load a package into a truck. For example, load a package_1 into a truck_1.",
+        "iter_1": {
+            "llm_output": "1. ?p - package: the package to be loaded\n2. ?t - truck: the truck to load the package into\n\nPreconditions:\n```\n(and\n    (package-at ?p ?l)\n    (truck-at ?t ?l)\n    (truck-has-space ?t)\n)\n```\n\nEffects:\n```\n(and\n    (not (package-at ?p ?l))\n    (package-in-truck ?p ?t)\n    (not (truck-has-space ?t))\n)\n```\n\nNew Predicates:\n1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l\n2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l\n3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package\n4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t",
+            "error_type": "invalid_predicate_usage",
+            "feedback_msg": "In the preconditions and in the predicate `package-at`, there is an unknown parameter ?l. You should define all parameters (i.e., name and type) under the `Parameters` list. Please revise the PDDL model to fix this error (and other potentially similar errors).\n\nParameters:"
+        },
+        "llm_output": "1. ?p - package: the package to be loaded\n2. ?t - truck: the truck to load the package into\n3. ?l - location: the location where the package and truck are located\n\nPreconditions:\n```\n(and\n    (package-at ?p ?l)\n    (truck-at ?t ?l)\n    (truck-has-space ?t)\n)\n```\n\nEffects:\n```\n(and\n    (not (package-at ?p ?l))\n    (package-in-truck ?p ?t)\n    (not (truck-has-space ?t))\n)\n```\n\nNew Predicates:\n1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l\n2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l\n3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package\n4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t",
+        "iter_2": {
+            "llm_output": "1. ?p - package: the package to be loaded\n2. ?t - truck: the truck to load the package into\n3. ?l - location: the location where the package and truck are located\n\nPreconditions:\n```\n(and\n    (package-at ?p ?l)\n    (truck-at ?t ?l)\n    (truck-has-space ?t)\n)\n```\n\nEffects:\n```\n(and\n    (not (package-at ?p ?l))\n    (package-in-truck ?p ?t)\n    (not (truck-has-space ?t))\n)\n```\n\nNew Predicates:\n1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l\n2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l\n3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package\n4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t"
+        },
+        "new_predicates": [
+            "(package-at ?p - package ?l - location): true if the package ?p is located at location ?l",
+            "(truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l",
+            "(truck-has-space ?t - truck): true if the truck ?t has available space to load a package",
+            "(package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t"
+        ]
+    },
+    "Unload a package from a truck": {
+        "predicate_prompt": "You can create and define new predicates, but you may also reuse the following predicates:\n1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l\n2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l\n3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package\n4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t",
+        "action_desc": "This action enables the agent to unload a package from a truck. For example, unload a package_1 from a truck_1.",
+        "iter_1": {
+            "llm_output": "1. ?p - package: the package to be unloaded\n2. ?t - truck: the truck from which the package is to be unloaded\n3. ?l - location: the location where the truck is currently located\n\nPreconditions:\n```\n(and\n    (package-in-truck ?p ?t)\n    (truck-at ?t ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (package-in-truck ?p ?t))\n    (package-at ?p ?l)\n    (truck-has-space ?t)\n)\n```\n\nNew Predicates:\nNo newly defined predicate"
+        },
+        "llm_output": "1. ?p - package: the package to be unloaded\n2. ?t - truck: the truck from which the package is to be unloaded\n3. ?l - location: the location where the truck is currently located\n\nPreconditions:\n```\n(and\n    (package-in-truck ?p ?t)\n    (truck-at ?t ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (package-in-truck ?p ?t))\n    (package-at ?p ?l)\n    (truck-has-space ?t)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+        "new_predicates": []
+    },
+    "Load a package into an airplane": {
+        "predicate_prompt": "You can create and define new predicates, but you may also reuse the following predicates:\n1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l\n2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l\n3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package\n4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t",
+        "action_desc": "This action enables the agent to load a package into an airplane. For example, load a package_1 into an airplane_1.",
+        "iter_1": {
+            "llm_output": "1. ?p - package: the package to be loaded into the airplane\n2. ?a - plane: the airplane to load the package into\n3. ?l - location: the location where the airplane is currently located\n\nPreconditions:\n```\n(and\n    (package-at ?p ?l)\n    (plane-at ?a ?l)\n    (plane-has-space ?a)\n)\n```\n\nEffects:\n```\n(and\n    (not (package-at ?p ?l))\n    (package-in-plane ?p ?a)\n    (not (plane-has-space ?a))\n)\n```\n\nNew Predicates:\n1. (plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l\n2. (plane-has-space ?a - plane): true if the airplane ?a has available space to load a package\n3. (package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a"
+        },
+        "llm_output": "1. ?p - package: the package to be loaded into the airplane\n2. ?a - plane: the airplane to load the package into\n3. ?l - location: the location where the airplane is currently located\n\nPreconditions:\n```\n(and\n    (package-at ?p ?l)\n    (plane-at ?a ?l)\n    (plane-has-space ?a)\n)\n```\n\nEffects:\n```\n(and\n    (not (package-at ?p ?l))\n    (package-in-plane ?p ?a)\n    (not (plane-has-space ?a))\n)\n```\n\nNew Predicates:\n1. (plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l\n2. (plane-has-space ?a - plane): true if the airplane ?a has available space to load a package\n3. (package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a",
+        "new_predicates": [
+            "(plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l",
+            "(plane-has-space ?a - plane): true if the airplane ?a has available space to load a package",
+            "(package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a"
+        ]
+    },
+    "Unload a package from an airplane": {
+        "predicate_prompt": "You can create and define new predicates, but you may also reuse the following predicates:\n1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l\n2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l\n3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package\n4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t\n5. (plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l\n6. (plane-has-space ?a - plane): true if the airplane ?a has available space to load a package\n7. (package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a",
+        "action_desc": "This action enables the agent to unload a package from an airplane. For example, unload a package_1 from an airplane_1.",
+        "iter_1": {
+            "llm_output": "1. ?p - package: the package to be unloaded from the airplane\n2. ?a - plane: the airplane from which the package is to be unloaded\n\nPreconditions:\n```\n(and\n    (package-in-plane ?p ?a)\n    (plane-at ?a ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (package-in-plane ?p ?a))\n    (package-at ?p ?l)\n    (plane-has-space ?a)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+            "error_type": "invalid_predicate_usage",
+            "feedback_msg": "In the preconditions and in the predicate `plane-at`, there is an unknown parameter ?l. You should define all parameters (i.e., name and type) under the `Parameters` list. Please revise the PDDL model to fix this error (and other potentially similar errors).\n\nParameters:"
+        },
+        "llm_output": "1. ?p - package: the package to be unloaded from the airplane\n2. ?a - plane: the airplane from which the package is to be unloaded\n3. ?l - location: the location where the airplane is currently located\n\nPreconditions:\n```\n(and\n    (package-in-plane ?p ?a)\n    (plane-at ?a ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (package-in-plane ?p ?a))\n    (package-at ?p ?l)\n    (plane-has-space ?a)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+        "iter_2": {
+            "llm_output": "1. ?p - package: the package to be unloaded from the airplane\n2. ?a - plane: the airplane from which the package is to be unloaded\n3. ?l - location: the location where the airplane is currently located\n\nPreconditions:\n```\n(and\n    (package-in-plane ?p ?a)\n    (plane-at ?a ?l)\n)\n```\n\nEffects:\n```\n(and\n    (not (package-in-plane ?p ?a))\n    (package-at ?p ?l)\n    (plane-has-space ?a)\n)\n```\n\nNew Predicates:\nNo newly defined predicate"
+        },
+        "new_predicates": []
+    },
+    "Drive a truck from one location to another in a city": {
+        "predicate_prompt": "You can create and define new predicates, but you may also reuse the following predicates:\n1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l\n2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l\n3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package\n4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t\n5. (plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l\n6. (plane-has-space ?a - plane): true if the airplane ?a has available space to load a package\n7. (package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a",
+        "action_desc": "This action enables the agent to drive a truck from one location to another in a city. For example, drive a truck_1 from location_1 to location_2 in city_1.",
+        "iter_1": {
+            "llm_output": "1. ?t - truck: the truck to be driven\n2. ?from - location: the location the truck is currently at\n3. ?to - location: the location the truck will be driven to\n\nPreconditions:\n```\n(and\n    (truck-at ?t ?from)\n    (not (= ?from ?to))\n)\n```\n\nEffects:\n```\n(and\n    (not (truck-at ?t ?from))\n    (truck-at ?t ?to)\n)\n```\n\nNew Predicates:\nNo newly defined predicate"
+        },
+        "llm_output": "1. ?t - truck: the truck to be driven\n2. ?from - location: the location the truck is currently at\n3. ?to - location: the location the truck will be driven to\n\nPreconditions:\n```\n(and\n    (truck-at ?t ?from)\n    (not (= ?from ?to))\n)\n```\n\nEffects:\n```\n(and\n    (not (truck-at ?t ?from))\n    (truck-at ?t ?to)\n)\n```\n\nNew Predicates:\nNo newly defined predicate",
+        "new_predicates": []
+    },
+    "Fly an airplane from one city to another": {
+        "predicate_prompt": "You can create and define new predicates, but you may also reuse the following predicates:\n1. (package-at ?p - package ?l - location): true if the package ?p is located at location ?l\n2. (truck-at ?t - truck ?l - location): true if the truck ?t is located at location ?l\n3. (truck-has-space ?t - truck): true if the truck ?t has available space to load a package\n4. (package-in-truck ?p - package ?t - truck): true if the package ?p is loaded in the truck ?t\n5. (plane-at ?a - plane ?l - location): true if the airplane ?a is located at location ?l\n6. (plane-has-space ?a - plane): true if the airplane ?a has available space to load a package\n7. (package-in-plane ?p - package ?a - plane): true if the package ?p is loaded in the airplane ?a",
+        "action_desc": "This action enables the agent to fly an airplane from one city's airport to another. The airports are locations in the city. For example, fly an airplane_1 from location_0 to location_1.",
+        "iter_1": {
+            "llm_output": "1. ?a - plane: the airplane to fly\n2. ?from - location: the location where the airplane is currently located\n3. ?to - location: the location where the airplane will fly to\n\nPreconditions:\n```\n(and\n    (plane-at ?a ?from)\n    (plane-has-space ?a)\n)\n```\n\nEffects:\n```\n(and\n    (not (plane-at ?a ?from))\n    (plane-at ?a ?to)\n)\n```\n\nNew Predicates:\n1. (city-has-airport ?c - city ?l - location): true if the location ?l is the airport of the city ?c\n2. (city-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route"
+        },
+        "llm_output": "1. ?a - plane: the airplane to fly\n2. ?from - location: the location where the airplane is currently located\n3. ?to - location: the location where the airplane will fly to\n\nPreconditions:\n```\n(and\n    (plane-at ?a ?from)\n    (plane-has-space ?a)\n)\n```\n\nEffects:\n```\n(and\n    (not (plane-at ?a ?from))\n    (plane-at ?a ?to)\n)\n```\n\nNew Predicates:\n1. (city-has-airport ?c - city ?l - location): true if the location ?l is the airport of the city ?c\n2. (city-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route",
+        "new_predicates": [
+            "(city-has-airport ?c - city ?l - location): true if the location ?l is the airport of the city ?c",
+            "(city-connected ?c1 - city ?c2 - city): true if the cities ?c1 and ?c2 are directly connected by an air route"
+        ]
+    }
+}
