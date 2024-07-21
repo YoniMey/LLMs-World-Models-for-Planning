@@ -58,7 +58,7 @@ We ran the following 3 domains: 'library', 'logistics' and 'tyreworld' twice eac
 Here we can see that the modified domain 'library' has the highest variance in the output, while the 'logistics' and 'tyreworld' domains have a much lower variance, as expected.
 
 ## Experiment 3: Variance of the Suggested Method
-We test the variance of the answers of the system by using the same prompt for one of the most difficult actions for 10 times and looked for the difference in the answers.
+We tested the variance of the answers of the system by using the same prompt for one of the most difficult actions for 10 times and looked for the difference in the answers.
 Here we divided the evaluation into the three parts of the PDDL program for an action: parameters, preconditions and effects.
 
 ### Experiment settings:
@@ -68,7 +68,12 @@ Here we divided the evaluation into the three parts of the PDDL program for an a
 
 ### Results:
 ![](images/exp3.jpeg)
-From left to right: 
+Each bin represents the number of occurrences for unique answer.
+The color indicate the number of mistakes per answer, such that:
+
+green - 0-1 mistakes
+orange - 2-4 mistakes
+red - 5-6 mistakes
 
 
 
