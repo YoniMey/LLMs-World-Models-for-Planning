@@ -71,8 +71,8 @@ Here we divided the evaluation into the three parts of the PDDL program for an a
 Each bin represents the number of occurrences for unique answer.
 The color indicate the number of mistakes per answer, such that:
 
-green - 0-1 mistakes
-orange - 2-4 mistakes
+Green - 0-1 mistakes,
+orange - 2-4 mistakes,
 red - 5-6 mistakes
 
 
