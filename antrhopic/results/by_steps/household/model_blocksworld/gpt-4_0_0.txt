@@ -1,0 +1,1642 @@
+
+
+####################
+Action: Go to a Furniture Piece or an Appliance
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+No predicate has been defined yet
+--------------------
+--------------------
+Based on the given domain information, parameters, and preconditions, I'll define the effects for the robot navigation action. I'll keep the parameters and preconditions as previously defined:
+
+Parameters:
+1. ?robot - robot: The household robot performing the action
+2. ?from - furnitureAppliance: The starting location (furniture or appliance) of the robot
+3. ?to - furnitureAppliance: The destination location (furniture or appliance) for the robot
+
+Preconditions:
+(and
+    (robot-at ?robot ?from)
+    (not (= ?from ?to))
+    (robot-gripper-empty ?robot)
+)
+
+Effects:
+(and
+    (not (robot-at ?robot ?from))
+    (robot-at ?robot ?to)
+)
+
+New Predicates:
+1. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at furniture or appliance ?f
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+
+Explanation of effects:
+1. (not (robot-at ?robot ?from)): The robot is no longer at the starting location.
+2. (robot-at ?robot ?to): The robot is now at the destination location.
+
+These effects ensure that:
+- The robot's location is updated from the starting point to the destination.
+- The robot's previous location is removed to maintain consistency in the world state.
+- The robot-gripper-empty predicate remains unchanged as the navigation action doesn't affect the gripper state.
+
+This set of effects accurately represents the changes in the world state after the robot navigates from one furniture or appliance to another, adhering to the domain constraints and the nature of the navigation action.
+
+
+####################
+Action: Pick up an Object on or in a Furniture Piece or an Appliance
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+--------------------
+--------------------
+Based on the domain information, parameters, and preconditions previously defined, I'll now define the effects of the action for picking up an object from a piece of furniture or appliance.
+
+Parameters:
+1. ?r - robot: the household robot performing the action
+2. ?obj - householdObject: the object to be picked up
+3. ?furn - furnitureAppliance: the furniture or appliance where the object is located
+
+Preconditions:
+(and
+    (robot-gripper-empty ?r)
+    (robot-at ?r ?furn)
+    (object-at ?obj ?furn)
+    (is-pickupable ?obj)
+    (not (object-stacked-on ?obj))
+    (or (not (is-openable ?furn)) (is-open ?furn))
+)
+
+Effects:
+(and
+    (not (robot-gripper-empty ?r))
+    (not (object-at ?obj ?furn))
+    (robot-holding ?r ?obj)
+)
+
+New Predicates:
+1. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+
+These effects represent the changes in the world state after the robot picks up the object:
+1. The robot's gripper is no longer empty.
+2. The object is no longer at the furniture or appliance.
+3. The robot is now holding the object.
+
+The previously defined predicates are reused, and one new predicate (robot-holding) is introduced to represent the robot holding the picked-up object.
+
+
+####################
+Action: Put an Object on or in a Furniture Piece or an Appliance
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+--------------------
+--------------------
+Based on the previous answers and the given information, I'll keep the parameters and preconditions as defined before, and now define the effects for this action:
+
+Parameters:
+1. ?r - robot: the robot performing the action
+2. ?o - householdObject: the object to be put in/on the furniture or appliance
+3. ?f - furnitureAppliance: the furniture or appliance where the object will be placed
+
+Preconditions:
+(and
+    (robot-holding ?r ?o)
+    (robot-at ?r ?f)
+    (or (not (is-openable ?f)) (is-open ?f))
+    (can-contain ?f ?o)
+)
+
+Effects:
+(and
+    (not (robot-holding ?r ?o))
+    (robot-gripper-empty ?r)
+    (object-in ?o ?f)
+)
+
+New Predicates:
+1. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+
+Explanation of effects:
+1. (not (robot-holding ?r ?o)): The robot is no longer holding the object.
+2. (robot-gripper-empty ?r): The robot's gripper becomes empty after putting down the object.
+3. (object-in ?o ?f): The object is now in/on the furniture or appliance.
+
+These effects represent the changes in the world state after the robot puts the object in/on the furniture or appliance. The robot releases the object, its gripper becomes empty, and the object is now located in/on the specified furniture or appliance.
+
+
+####################
+Action: Stack Objects
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+--------------------
+--------------------
+Based on the given information, parameters, and preconditions, I'll define the effects for the stacking action.
+
+Parameters:
+1. ?r - robot: the robot performing the stacking action
+2. ?object1 - householdObject: the object being stacked on top
+3. ?object2 - householdObject: the object being stacked upon
+4. ?furniture - furnitureAppliance: the furniture piece where the stacking occurs
+
+Preconditions:
+(and
+    (robot-holding ?r ?object1)
+    (object-in ?object2 ?furniture)
+    (can-contain ?furniture ?object1)
+    (can-contain ?furniture ?object2)
+    (is-stackable ?object1)
+    (is-stackable ?object2)
+    (object-clear ?object2)
+    (has-flat-surface ?furniture)
+)
+
+Effects:
+(and
+    (not (robot-holding ?r ?object1))
+    (robot-gripper-empty ?r)
+    (object-in ?object1 ?furniture)
+    (stacked-on ?object1 ?object2)
+    (not (object-clear ?object2))
+    (object-clear ?object1)
+)
+
+New Predicates:
+1. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+
+These effects ensure that:
+1. The robot is no longer holding object1.
+2. The robot's gripper becomes empty.
+3. Object1 is now in/on the furniture.
+4. Object1 is stacked on top of object2.
+5. Object2 is no longer clear (has an object on top of it).
+6. Object1 is now clear (nothing on top of it).
+
+
+####################
+Action: Unstack Objects
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+--------------------
+--------------------
+Based on the given information, parameters, and preconditions, here are the effects for the unstacking action:
+
+Parameters:
+1. ?r - robot: the robot performing the unstacking action
+2. ?o1 - householdObject: the object to be unstacked (removed from on top of another object)
+3. ?o2 - householdObject: the object from which ?o1 is being unstacked
+4. ?f - furnitureAppliance: the furniture or appliance on which the stacked objects are located
+
+Preconditions:
+(and
+    (robot-gripper-empty ?r)
+    (stacked-on ?o1 ?o2)
+    (object-in ?o1 ?f)
+    (object-in ?o2 ?f)
+    (has-flat-surface ?f)
+    (not (= ?o1 ?o2))
+)
+
+Effects:
+(and
+    (not (robot-gripper-empty ?r))
+    (robot-holding ?r ?o1)
+    (not (stacked-on ?o1 ?o2))
+    (not (object-in ?o1 ?f))
+    (clear ?o2)
+)
+
+New Predicates:
+1. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+
+Explanation of effects:
+1. (not (robot-gripper-empty ?r)): The robot's gripper is no longer empty after unstacking.
+2. (robot-holding ?r ?o1): The robot is now holding the unstacked object ?o1.
+3. (not (stacked-on ?o1 ?o2)): Object ?o1 is no longer stacked on top of object ?o2.
+4. (not (object-in ?o1 ?f)): Object ?o1 is no longer in/on the furniture or appliance ?f.
+5. (clear ?o2): Object ?o2 is now clear (nothing is stacked on top of it).
+
+These effects accurately represent the changes in the world state after the unstacking action is performed. The robot picks up the top object, making it no longer stacked on the lower object or present on the furniture, while the lower object becomes clear.
+
+
+####################
+Action: Open a Furniture Piece or an Appliance
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+--------------------
+--------------------
+Based on the previously defined parameters and preconditions, here are the complete parameters, preconditions, and effects for the action of opening a large piece of furniture or an appliance:
+
+Parameters:
+1. ?r - robot: the robot performing the action
+2. ?f - furnitureAppliance: the furniture or appliance to be opened
+
+Preconditions:
+(and
+    (robot-gripper-empty ?r)
+    (not (is-open ?f))
+    (robot-at ?r ?f)
+    (is-openable ?f)
+)
+
+Effects:
+(and
+    (is-open ?f)
+)
+
+New Predicates:
+1. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+2. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+
+The effects of this action are straightforward:
+1. The furniture or appliance becomes open after the action is performed.
+
+This effect represents the change in the state of the world after the robot has successfully opened the furniture or appliance. The robot's position and gripper state remain unchanged, as opening a piece of furniture doesn't affect these attributes.
+
+
+####################
+Action: Close a Furniture Piece or an Appliance
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+--------------------
+--------------------
+Based on the previous steps, here are the parameters and preconditions for the action of closing a large piece of furniture or an appliance:
+
+Parameters:
+1. ?r - robot: the robot performing the action
+2. ?f - furnitureAppliance: the furniture or appliance to be closed
+
+Preconditions:
+(and
+    (is-openable ?f)
+    (is-open ?f)
+    (robot-gripper-empty ?r)
+)
+
+These parameters and preconditions are sufficient, so we don't need to add or remove any.
+
+Now, let's define the effects of this action:
+
+Effects:
+
+(and
+    (not (is-open ?f))
+)
+
+New Predicates:
+No new predicates are needed as all the required predicates are already provided in the list.
+
+Explanation of effects:
+1. (not (is-open ?f)): This removes the fact that the furniture or appliance is open, effectively closing it.
+
+The effects are straightforward for this action. We simply negate the (is-open ?f) predicate to indicate that the furniture or appliance is no longer open. We don't need to add any positive effects because the robot's state (gripper being empty) and the furniture's ability to be opened (is-openable) remain unchanged after the action.
+
+
+####################
+Action: Toggle a Small Appliance On
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+--------------------
+--------------------
+Based on the given information and the previously defined parameters and preconditions, here are the complete parameters, preconditions, and effects for the action of toggling a small appliance to switch it on:
+
+Parameters:
+1. ?r - robot: the robot performing the action
+2. ?a - householdObject: the small appliance to be switched on
+3. ?f - furnitureAppliance: the furniture or appliance where the small appliance is located
+
+Preconditions:
+(and
+    (robot-gripper-empty ?r)
+    (object-in ?a ?f)
+    (robot-at ?r ?f)
+    (is-small-appliance ?a)
+    (not (is-on ?a))
+)
+
+Effects:
+(and
+    (is-on ?a)
+)
+
+New Predicates:
+1. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+2. (is-small-appliance ?a - householdObject): true if ?a is a small appliance that can be toggled on/off
+3. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+
+Explanation of effects:
+1. (is-on ?a): This effect indicates that the small appliance is now switched on after the action is performed.
+
+The effects are relatively simple for this action because toggling a small appliance on primarily changes its state from off to on. The robot's position and the location of the appliance remain unchanged, and the robot's gripper remains empty throughout the action.
+
+
+####################
+Action: Toggle a Small Appliance Off
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+--------------------
+--------------------
+Based on the given domain information, action description, and previously defined parameters and preconditions, I'll provide the effects for the action to toggle a small appliance off:
+
+Parameters:
+1. ?r - robot: the robot performing the action
+2. ?a - householdObject: the small appliance to be toggled off
+3. ?f - furnitureAppliance: the furniture or appliance where the small appliance is located
+
+Preconditions:
+(and
+    (robot-gripper-empty ?r)
+    (object-in ?a ?f)
+    (is-on ?a)
+    (clear ?a)
+    (is-small-appliance ?a)
+    (robot-at ?r ?f)
+)
+
+Effects:
+(and
+    (not (is-on ?a))
+)
+
+New Predicates:
+No new predicates are needed for the effects.
+
+Explanation of effects:
+The main effect of this action is to switch off the small appliance. This is represented by removing the (is-on ?a) predicate, which indicates that the appliance is no longer switched on.
+
+Note that we don't need to add any positive effects because:
+1. The robot's position doesn't change (it remains at the same furniture/appliance).
+2. The robot's gripper remains empty.
+3. The small appliance remains in/on the same furniture or appliance.
+4. The small appliance remains clear (nothing is stacked on it).
+
+The only change in the world state is that the small appliance is no longer switched on, which is represented by the removal of the (is-on ?a) predicate.
+
+
+####################
+Action: Slice Objects
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+--------------------
+--------------------
+Based on the given information, here are the parameters, preconditions, and effects for the "slice" action:
+
+Parameters:
+1. ?r - robot: the robot performing the slicing action
+2. ?k - householdObject: the knife used for slicing
+3. ?o - householdObject: the object to be sliced (e.g., fruit or vegetable)
+4. ?cb - smallReceptacle: the cutting board on which the slicing is performed
+5. ?f - furnitureAppliance: the furniture piece with a flat surface where the cutting board is placed
+
+Preconditions:
+(and
+    (robot-holding ?r ?k)
+    (is-knife ?k)
+    (is-sliceable ?o)
+    (is-cutting-board ?cb)
+    (has-flat-surface ?f)
+    (robot-at ?r ?f)
+    (object-in ?o ?cb)
+    (object-in ?cb ?f)
+    (not (is-sliced ?o))
+)
+
+Effects:
+(and
+    (is-sliced ?o)
+    (not (is-sliceable ?o))
+)
+
+New Predicates:
+1. (is-knife ?k - householdObject): true if ?k is a knife
+   Description: This predicate identifies objects that can be used as knives for slicing.
+
+2. (is-sliceable ?o - householdObject): true if ?o can be sliced
+   Description: This predicate identifies objects that can be sliced, such as fruits and vegetables.
+
+3. (is-cutting-board ?cb - smallReceptacle): true if ?cb is a cutting board
+   Description: This predicate identifies objects that can be used as cutting boards.
+
+4. (is-sliced ?o - householdObject): true if ?o has been sliced
+   Description: This predicate indicates whether an object has been sliced or not.
+
+These effects ensure that:
+- The object is marked as sliced after the action
+- The object is no longer sliceable after being sliced
+
+Note that we don't need to change the robot's state or location, as it remains holding the knife and at the same furniture piece after slicing. The object also remains on the cutting board, which stays on the furniture piece.
+
+
+####################
+Action: Heat Food with a Microwave
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+23.    Description: This predicate identifies objects that can be used as knives for slicing.
+24.    Description: This predicate identifies objects that can be used as knives for slicing.
+25.    Description: This predicate identifies objects that can be used as knives for slicing.
+--------------------
+--------------------
+Based on the given information, parameters, and preconditions, here are the effects for the action of starting a microwave to heat food:
+
+Parameters:
+1. ?r - robot: the robot performing the action
+2. ?m - furnitureAppliance: the microwave being used
+3. ?f - householdObject: the food item to be heated
+4. ?c - smallReceptacle: the container (e.g., plate or bowl) holding the food
+
+Preconditions:
+(and
+    (robot-at ?r ?m)
+    (robot-gripper-empty ?r)
+    (object-in ?f ?c)
+    (object-in ?c ?m)
+    (not (is-open ?m))
+    (not (is-heated ?f))
+)
+
+Effects:
+(and
+    (is-heated ?f)
+    (not (is-pickupable ?f))
+    (is-on ?m)
+)
+
+New Predicates:
+1. (is-heated ?f - householdObject): true if the food item ?f has been heated
+2. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+
+The effects of this action are:
+1. The food becomes heated.
+2. The food is no longer pickupable after being heated.
+3. The microwave is turned on.
+
+These effects reflect the changes in the state of the world after the robot starts the microwave to heat the food. The food is now heated, it can't be picked up directly (as it's hot and in the microwave), and the microwave is now in an "on" state.
+
+
+####################
+Action: Heat Food with Pan
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+23.    Description: This predicate identifies objects that can be used as knives for slicing.
+24.    Description: This predicate identifies objects that can be used as knives for slicing.
+25.    Description: This predicate identifies objects that can be used as knives for slicing.
+26. (is-heated ?f - householdObject): true if the food item ?f has been heated
+27. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+28. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+--------------------
+--------------------
+Based on the domain information, parameters, and preconditions provided, I'll now define the effects for the action of heating food with a pan. Here's the complete action definition:
+
+Parameters:
+1. ?r - robot: the robot performing the action
+2. ?food - householdObject: the food item to be heated
+3. ?pan - smallReceptacle: the pan used for heating the food
+4. ?burner - furnitureAppliance: the stove burner on which the pan is placed
+
+Preconditions:
+(and
+    (robot-at ?r ?burner)
+    (robot-gripper-empty ?r)
+    (object-in ?food ?pan)
+    (object-in ?pan ?burner)
+    (is-pickupable ?food)
+    (not (is-heated ?food))
+    (is-stove-burner ?burner)
+    (is-heatable ?food)
+)
+
+Effects:
+(and
+    (is-heated ?food)
+    (not (is-pickupable ?food))
+)
+
+New Predicates:
+1. (is-stove-burner ?f - furnitureAppliance): true if the furniture or appliance ?f is a stove burner
+   Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+
+2. (is-heatable ?o - householdObject): true if the object ?o can be heated
+   Description: This predicate identifies whether a household object can be heated.
+
+Explanation of effects:
+1. (is-heated ?food): The food becomes heated after the action is performed.
+2. (not (is-pickupable ?food)): As specified in the domain information, the food is no longer pickupable after it has been heated.
+
+These effects reflect the changes in the state of the world after the robot has heated the food with a pan on a stove burner. The food becomes heated and is no longer pickupable, as per the domain description.
+
+
+####################
+Action: Transfer Food from One Small Receptacle to Another
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+23.    Description: This predicate identifies objects that can be used as knives for slicing.
+24.    Description: This predicate identifies objects that can be used as knives for slicing.
+25.    Description: This predicate identifies objects that can be used as knives for slicing.
+26. (is-heated ?f - householdObject): true if the food item ?f has been heated
+27. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+28. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+29.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+30.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+31.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+--------------------
+--------------------
+Based on the domain information, parameters, and preconditions provided, I'll now define the effects of the action for transferring food from one small receptacle to another.
+
+Parameters:
+1. ?r - robot: the household robot performing the action
+2. ?food - householdObject: the food item being transferred
+3. ?from - smallReceptacle: the source small receptacle containing the food
+4. ?to - smallReceptacle: the destination small receptacle to receive the food
+5. ?surface - furnitureAppliance: the furniture or appliance with a flat surface where the transfer takes place
+
+Preconditions:
+(and
+    (robot-at ?r ?surface)
+    (robot-gripper-empty ?r)
+    (has-flat-surface ?surface)
+    (object-in ?from ?surface)
+    (object-in ?to ?surface)
+    (object-in ?food ?from)
+    (clear ?to)
+    (clear ?from)
+    (not (= ?from ?to))
+    (is-open ?from)
+    (is-open ?to)
+)
+
+Effects:
+(and
+    (not (object-in ?food ?from))
+    (object-in ?food ?to)
+)
+
+New Predicates:
+No new predicates are needed for the effects.
+
+Explanation of the effects:
+1. (not (object-in ?food ?from)): This removes the fact that the food is in the source receptacle.
+2. (object-in ?food ?to): This adds the fact that the food is now in the destination receptacle.
+
+These effects represent the change in the state of the world after the action is performed. The food is no longer in the source receptacle and is now in the destination receptacle. All other conditions remain unchanged, as the robot's position, the emptiness of its gripper, and the locations of the receptacles on the surface do not change during this action.
+
+
+####################
+Action: Puts an Object onto or into a Small Receptacle
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+23.    Description: This predicate identifies objects that can be used as knives for slicing.
+24.    Description: This predicate identifies objects that can be used as knives for slicing.
+25.    Description: This predicate identifies objects that can be used as knives for slicing.
+26. (is-heated ?f - householdObject): true if the food item ?f has been heated
+27. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+28. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+29.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+30.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+31.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+32.    Description: This predicate identifies objects that are food items.
+--------------------
+--------------------
+Based on the given domain information, parameters, and preconditions, I'll now define the effects for the action of putting an object into/onto a small receptacle:
+
+Parameters:
+1. ?r - robot: the robot performing the action
+2. ?o - householdObject: the object to be put into/onto the receptacle
+3. ?rec - smallReceptacle: the small receptacle (e.g., bowl, lunch box, plate) to put the object into/onto
+4. ?f - furnitureAppliance: the furniture or appliance with a flat surface where the action is performed
+
+Preconditions:
+(and
+    (robot-at ?r ?f)
+    (robot-holding ?r ?o)
+    (object-in ?rec ?f)
+    (has-flat-surface ?f)
+    (clear ?rec)
+    (not (= ?o ?rec))
+    (can-contain ?rec ?o)
+)
+
+Effects:
+(and
+    (not (robot-holding ?r ?o))
+    (robot-gripper-empty ?r)
+    (object-in ?o ?rec)
+    (not (clear ?rec))
+)
+
+New Predicates:
+1. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+
+Explanation of effects:
+1. (not (robot-holding ?r ?o)): The robot is no longer holding the object.
+2. (robot-gripper-empty ?r): The robot's gripper becomes empty after putting down the object.
+3. (object-in ?o ?rec): The object is now in/on the small receptacle.
+4. (not (clear ?rec)): The receptacle is no longer clear as it now contains an object.
+
+These effects accurately represent the changes in the world state after the robot puts the object into/onto the small receptacle. The robot releases the object, its gripper becomes empty, the object is now in the receptacle, and the receptacle is no longer clear.
+
+
+####################
+Action: Pick up an Object on or in a Small Receptacle
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+23.    Description: This predicate identifies objects that can be used as knives for slicing.
+24.    Description: This predicate identifies objects that can be used as knives for slicing.
+25.    Description: This predicate identifies objects that can be used as knives for slicing.
+26. (is-heated ?f - householdObject): true if the food item ?f has been heated
+27. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+28. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+29.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+30.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+31.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+32.    Description: This predicate identifies objects that are food items.
+33. (can-contain ?rec - smallReceptacle ?o - householdObject): true if the small receptacle ?rec can contain the object ?o
+34. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+35. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+--------------------
+--------------------
+Based on the given domain information, parameters, and preconditions, I'll provide the effects for the action of picking up an object from a small receptacle:
+
+Parameters:
+1. ?r - robot: the robot performing the action
+2. ?o - householdObject: the object to be picked up
+3. ?rec - smallReceptacle: the small receptacle containing the object
+4. ?f - furnitureAppliance: the furniture or appliance where the receptacle is located
+
+Preconditions:
+(and
+    (robot-at ?r ?f)
+    (robot-gripper-empty ?r)
+    (object-in ?o ?rec)
+    (object-in ?rec ?f)
+    (has-flat-surface ?f)
+    (is-pickupable ?o)
+    (clear ?o)
+    (clear ?rec)
+    (not (stacked-on ?rec ?o))
+    (can-contain ?rec ?o)
+    (or (not (is-openable ?rec)) (is-open ?rec))
+)
+
+Effects:
+(and
+    (not (robot-gripper-empty ?r))
+    (robot-holding ?r ?o)
+    (not (object-in ?o ?rec))
+    (not (clear ?o))
+    (when (and (not (exists (?other - householdObject) (and (not (= ?other ?o)) (object-in ?other ?rec)))) (not (is-openable ?rec)))
+        (clear ?rec)
+    )
+)
+
+New Predicates:
+No new predicates needed.
+
+Explanation of the effects:
+1. The robot's gripper is no longer empty.
+2. The robot is now holding the object.
+3. The object is no longer in the receptacle.
+4. The object is no longer clear (as it's being held).
+5. If the receptacle becomes empty after removing the object and it's not openable, it becomes clear. This is represented by a conditional effect using the 'when' clause.
+
+These effects accurately represent the changes in the world state after the robot picks up the object from the small receptacle.
+
+
+####################
+Action: Open a Small Receptacle
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+23.    Description: This predicate identifies objects that can be used as knives for slicing.
+24.    Description: This predicate identifies objects that can be used as knives for slicing.
+25.    Description: This predicate identifies objects that can be used as knives for slicing.
+26. (is-heated ?f - householdObject): true if the food item ?f has been heated
+27. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+28. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+29.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+30.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+31.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+32.    Description: This predicate identifies objects that are food items.
+33. (can-contain ?rec - smallReceptacle ?o - householdObject): true if the small receptacle ?rec can contain the object ?o
+34. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+35. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+36. (is-open ?rec - smallReceptacle): true if the small receptacle ?rec is currently open
+--------------------
+--------------------
+Based on the domain information, parameters, and preconditions provided, I'll now define the effects for the action of opening a small receptacle. Here's the complete action definition:
+
+Parameters:
+1. ?r - robot: the robot performing the action
+2. ?rec - smallReceptacle: the small receptacle to be opened
+3. ?f - furnitureAppliance: the furniture or appliance on which the small receptacle is placed
+
+Preconditions:
+(and
+    (robot-at ?r ?f)
+    (object-in ?rec ?f)
+    (has-flat-surface ?f)
+    (robot-gripper-empty ?r)
+    (clear ?rec)
+    (not (is-open ?rec))
+    (is-openable ?rec)
+)
+
+Effects:
+(and
+    (is-open ?rec)
+)
+
+New Predicates:
+1. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+
+The effects of this action are straightforward:
+1. The small receptacle becomes open.
+
+This effect directly changes the state of the small receptacle from closed to open. No other changes are necessary because:
+- The robot's position doesn't change
+- The robot's gripper remains empty
+- The receptacle's location doesn't change
+- The receptacle remains clear (nothing is stacked on it)
+
+The action of opening the receptacle doesn't affect any other objects or the robot's state beyond making the receptacle open. This simple effect accurately represents the outcome of the action as described in the domain information.
+
+
+####################
+Action: Close a Small Receptacle
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+23.    Description: This predicate identifies objects that can be used as knives for slicing.
+24.    Description: This predicate identifies objects that can be used as knives for slicing.
+25.    Description: This predicate identifies objects that can be used as knives for slicing.
+26. (is-heated ?f - householdObject): true if the food item ?f has been heated
+27. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+28. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+29.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+30.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+31.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+32.    Description: This predicate identifies objects that are food items.
+33. (can-contain ?rec - smallReceptacle ?o - householdObject): true if the small receptacle ?rec can contain the object ?o
+34. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+35. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+36. (is-open ?rec - smallReceptacle): true if the small receptacle ?rec is currently open
+37. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+38. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+39. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+--------------------
+--------------------
+Based on the given domain information, parameters, and preconditions, I'll now define the effects for the action of closing a small receptacle:
+
+Parameters:
+1. ?r - robot: the robot performing the action
+2. ?rec - smallReceptacle: the small receptacle to be closed
+3. ?f - furnitureAppliance: the furniture or appliance on which the receptacle is placed
+
+Preconditions:
+(and
+    (robot-at ?r ?f)
+    (object-in ?rec ?f)
+    (is-openable ?rec)
+    (is-open ?rec)
+    (has-flat-surface ?f)
+    (robot-gripper-empty ?r)
+    (clear ?rec)
+    (not (stacked-on ?rec ?o))
+)
+
+Effects:
+(and
+    (not (is-open ?rec))
+    (is-closed ?rec)
+)
+
+New Predicates:
+1. (is-closed ?rec - smallReceptacle): true if the small receptacle ?rec is currently closed
+
+These effects represent the changes that occur when the robot closes the small receptacle:
+
+1. The receptacle is no longer open.
+2. The receptacle is now closed.
+
+The effects are relatively simple for this action because the main change is the state of the receptacle from open to closed. All other conditions (such as the robot's location, the receptacle's position on the furniture, and the robot's gripper being empty) remain unchanged after the action is performed.
+
+The new predicate (is-closed ?rec - smallReceptacle) is introduced to explicitly represent the closed state of the receptacle, which is the opposite of the (is-open ?rec - smallReceptacle) predicate. This allows for clear distinction between open and closed states of the receptacle in the domain model.
+
+
+####################
+Action: Mash Food with a Blender
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+23.    Description: This predicate identifies objects that can be used as knives for slicing.
+24.    Description: This predicate identifies objects that can be used as knives for slicing.
+25.    Description: This predicate identifies objects that can be used as knives for slicing.
+26. (is-heated ?f - householdObject): true if the food item ?f has been heated
+27. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+28. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+29.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+30.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+31.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+32.    Description: This predicate identifies objects that are food items.
+33. (can-contain ?rec - smallReceptacle ?o - householdObject): true if the small receptacle ?rec can contain the object ?o
+34. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+35. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+36. (is-open ?rec - smallReceptacle): true if the small receptacle ?rec is currently open
+37. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+38. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+39. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+40. (not (stacked-on ?rec ?o)): true if the receptacle ?rec is not stacked on any other object ?o
+41. (is-closed ?rec - smallReceptacle): true if the small receptacle ?rec is currently closed
+42. (is-closed ?rec - smallReceptacle): true if the small receptacle ?rec is currently closed
+--------------------
+--------------------
+Based on the given domain information, parameters, and preconditions, I'll now define the effects for the action of using a blender to mash food:
+
+Parameters:
+1. ?r - robot: the household robot performing the action
+2. ?b - smallReceptacle: the blender used for mashing
+3. ?f - householdObject: the food item to be mashed
+
+Preconditions:
+(and
+    (robot-gripper-empty ?r)
+    (is-blender ?b)
+    (is-food ?f)
+    (is-sliced ?f)
+    (object-in ?f ?b)
+    (not (is-on ?b))
+    (is-closed ?b)
+    (robot-at ?r ?l)
+    (object-in ?b ?l)
+)
+
+Effects:
+(and
+    (is-mashed ?f)
+    (not (is-sliced ?f))
+)
+
+New Predicates:
+1. (is-mashed ?f - householdObject): true if the food item ?f has been mashed
+
+Explanation of the effects:
+1. (is-mashed ?f): This effect indicates that the food item has been mashed by the blender.
+2. (not (is-sliced ?f)): This effect removes the sliced state of the food, as it's no longer applicable after mashing.
+
+Note that we don't need to change the location of the food or the blender, or the robot's state, as these remain the same after the action. The blender is assumed to be turned off before and after the action, so we don't need to explicitly state this in the effects.
+
+
+####################
+Action: Wash an Object
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+23.    Description: This predicate identifies objects that can be used as knives for slicing.
+24.    Description: This predicate identifies objects that can be used as knives for slicing.
+25.    Description: This predicate identifies objects that can be used as knives for slicing.
+26. (is-heated ?f - householdObject): true if the food item ?f has been heated
+27. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+28. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+29.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+30.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+31.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+32.    Description: This predicate identifies objects that are food items.
+33. (can-contain ?rec - smallReceptacle ?o - householdObject): true if the small receptacle ?rec can contain the object ?o
+34. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+35. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+36. (is-open ?rec - smallReceptacle): true if the small receptacle ?rec is currently open
+37. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+38. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+39. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+40. (not (stacked-on ?rec ?o)): true if the receptacle ?rec is not stacked on any other object ?o
+41. (is-closed ?rec - smallReceptacle): true if the small receptacle ?rec is currently closed
+42. (is-closed ?rec - smallReceptacle): true if the small receptacle ?rec is currently closed
+43. (is-sliced ?f - householdObject): true if the food item ?f has been sliced
+44. (is-mashed ?f - householdObject): true if the food item ?f has been mashed
+45. (is-mashed ?f - householdObject): true if the food item ?f has been mashed
+--------------------
+--------------------
+Based on the given information, parameters, and preconditions, here are the effects for the "wash" action:
+
+Parameters:
+1. ?r - robot: the robot performing the washing action
+2. ?o - householdObject: the object to be washed
+3. ?s - furnitureAppliance: the sink or basin where the washing takes place
+
+Preconditions:
+(and
+    (robot-holding ?r ?o)
+    (robot-at ?r ?s)
+    (is-sink ?s)
+    (is-washable ?o)
+    (not (is-washed ?o))
+)
+
+Effects:
+(and
+    (is-washed ?o)
+    (is-clean ?o)
+    (not (is-dirty ?o))
+)
+
+New Predicates:
+1. (is-clean ?o - householdObject): true if the object ?o is clean
+   Description: This predicate indicates that an object has been cleaned.
+
+2. (is-dirty ?o - householdObject): true if the object ?o is dirty
+   Description: This predicate indicates that an object is dirty and needs cleaning.
+
+Explanation of the effects:
+1. (is-washed ?o): This effect indicates that the object has been washed.
+2. (is-clean ?o): This effect shows that the object is now clean after being washed.
+3. (not (is-dirty ?o)): This effect removes the 'dirty' status of the object after washing.
+
+These effects capture the main outcomes of the washing action:
+- The object's status changes from unwashed to washed.
+- The object becomes clean.
+- The object is no longer considered dirty.
+
+Note that we don't change the robot's position or its holding status, as the action description doesn't specify any changes to these states after washing.
+
+
+####################
+Action: Wipe a Surface
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+23.    Description: This predicate identifies objects that can be used as knives for slicing.
+24.    Description: This predicate identifies objects that can be used as knives for slicing.
+25.    Description: This predicate identifies objects that can be used as knives for slicing.
+26. (is-heated ?f - householdObject): true if the food item ?f has been heated
+27. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+28. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+29.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+30.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+31.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+32.    Description: This predicate identifies objects that are food items.
+33. (can-contain ?rec - smallReceptacle ?o - householdObject): true if the small receptacle ?rec can contain the object ?o
+34. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+35. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+36. (is-open ?rec - smallReceptacle): true if the small receptacle ?rec is currently open
+37. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+38. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+39. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+40. (not (stacked-on ?rec ?o)): true if the receptacle ?rec is not stacked on any other object ?o
+41. (is-closed ?rec - smallReceptacle): true if the small receptacle ?rec is currently closed
+42. (is-closed ?rec - smallReceptacle): true if the small receptacle ?rec is currently closed
+43. (is-sliced ?f - householdObject): true if the food item ?f has been sliced
+44. (is-mashed ?f - householdObject): true if the food item ?f has been mashed
+45. (is-mashed ?f - householdObject): true if the food item ?f has been mashed
+46.    Description: This predicate identifies whether a furniture or appliance is specifically a sink or basin for washing.
+47.    Description: This predicate indicates that an object has been cleaned.
+48.    Description: This predicate indicates that an object has been cleaned.
+--------------------
+--------------------
+Based on the domain information, parameters, and preconditions provided, here are the effects for the wiping action:
+
+Parameters:
+1. ?r - robot: the robot performing the wiping action
+2. ?f - furnitureAppliance: the furniture or appliance to be wiped
+3. ?c - householdObject: the cloth used for wiping
+
+Preconditions:
+(and
+    (robot-at ?r ?f)
+    (robot-holding ?r ?c)
+    (is-cloth ?c)
+    (is-clean ?c)
+    (not (is-clean ?f))
+)
+
+Effects:
+(and
+    (is-clean ?f)
+    (not (is-clean ?c))
+    (is-dirty ?c)
+)
+
+New Predicates:
+1. (is-dirty ?o - householdObject): true if the object ?o is dirty
+   Description: This predicate indicates that an object, particularly a cloth, has become dirty after use.
+
+These effects represent the following changes:
+1. The furniture or appliance becomes clean after wiping.
+2. The cloth used for wiping is no longer clean.
+3. The cloth becomes dirty after use.
+
+The effects maintain consistency with the action description, ensuring that the furniture is cleaned, and the cloth becomes dirty after the wiping action.
+
+
+####################
+Action: Vacuum a Carpet
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+23.    Description: This predicate identifies objects that can be used as knives for slicing.
+24.    Description: This predicate identifies objects that can be used as knives for slicing.
+25.    Description: This predicate identifies objects that can be used as knives for slicing.
+26. (is-heated ?f - householdObject): true if the food item ?f has been heated
+27. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+28. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+29.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+30.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+31.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+32.    Description: This predicate identifies objects that are food items.
+33. (can-contain ?rec - smallReceptacle ?o - householdObject): true if the small receptacle ?rec can contain the object ?o
+34. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+35. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+36. (is-open ?rec - smallReceptacle): true if the small receptacle ?rec is currently open
+37. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+38. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+39. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+40. (not (stacked-on ?rec ?o)): true if the receptacle ?rec is not stacked on any other object ?o
+41. (is-closed ?rec - smallReceptacle): true if the small receptacle ?rec is currently closed
+42. (is-closed ?rec - smallReceptacle): true if the small receptacle ?rec is currently closed
+43. (is-sliced ?f - householdObject): true if the food item ?f has been sliced
+44. (is-mashed ?f - householdObject): true if the food item ?f has been mashed
+45. (is-mashed ?f - householdObject): true if the food item ?f has been mashed
+46.    Description: This predicate identifies whether a furniture or appliance is specifically a sink or basin for washing.
+47.    Description: This predicate indicates that an object has been cleaned.
+48.    Description: This predicate indicates that an object has been cleaned.
+49.    Description: This predicate indicates whether a cloth is clean and suitable for use.
+50.    Description: This predicate indicates that an object, particularly a cloth, has become dirty after use.
+51.    Description: This predicate indicates that an object, particularly a cloth, has become dirty after use.
+--------------------
+--------------------
+Based on the given information and the parameters and preconditions defined in the previous steps, here are the parameters, preconditions, and effects for the action of vacuuming a carpet with a handheld vacuum cleaner:
+
+Parameters:
+1. ?r - robot: the household robot performing the action
+2. ?v - householdObject: the handheld vacuum cleaner
+3. ?c - furnitureAppliance: the carpet to be vacuumed
+
+Preconditions:
+(and
+    (robot-holding ?r ?v)
+    (is-vacuum-cleaner ?v)
+    (is-carpet ?c)
+    (robot-at ?r ?c)
+    (not (dust-bin-full ?v))
+    (not (is-clean ?c))
+    (is-on ?v)
+)
+
+Effects:
+(and
+    (is-clean ?c)
+    (dust-bin-full ?v)
+)
+
+New Predicates:
+1. (is-vacuum-cleaner ?v - householdObject): true if ?v is a vacuum cleaner
+   Description: This predicate identifies objects that are vacuum cleaners.
+2. (is-carpet ?c - furnitureAppliance): true if ?c is a carpet
+   Description: This predicate identifies furniture or appliances that are carpets.
+3. (dust-bin-full ?v - householdObject): true if the dust bin of vacuum cleaner ?v is full
+   Description: This predicate indicates whether the dust bin of a vacuum cleaner is full.
+4. (is-clean ?c - furnitureAppliance): true if the carpet ?c is clean
+   Description: This predicate indicates whether a carpet is clean.
+
+These effects represent the changes that occur after the robot vacuums the carpet:
+1. The carpet becomes clean.
+2. The dust bin of the vacuum cleaner becomes full.
+
+Note that we don't need to change the robot's position or the fact that it's holding the vacuum cleaner, as these remain the same after the action. The vacuum cleaner also remains on, so we don't need to change its state either.
+
+
+####################
+Action: Empty a Vacuum Cleaner
+####################
+--------------------
+You can create and define new predicates (please prefix each line with a number and a dot (1. , 2.), also please add a description for each new predicate, example: 1. (is-block ?b - blockObject): true if ?b is block ), but you may also reuse the following predicates:
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+23.    Description: This predicate identifies objects that can be used as knives for slicing.
+24.    Description: This predicate identifies objects that can be used as knives for slicing.
+25.    Description: This predicate identifies objects that can be used as knives for slicing.
+26. (is-heated ?f - householdObject): true if the food item ?f has been heated
+27. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+28. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+29.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+30.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+31.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+32.    Description: This predicate identifies objects that are food items.
+33. (can-contain ?rec - smallReceptacle ?o - householdObject): true if the small receptacle ?rec can contain the object ?o
+34. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+35. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+36. (is-open ?rec - smallReceptacle): true if the small receptacle ?rec is currently open
+37. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+38. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+39. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+40. (not (stacked-on ?rec ?o)): true if the receptacle ?rec is not stacked on any other object ?o
+41. (is-closed ?rec - smallReceptacle): true if the small receptacle ?rec is currently closed
+42. (is-closed ?rec - smallReceptacle): true if the small receptacle ?rec is currently closed
+43. (is-sliced ?f - householdObject): true if the food item ?f has been sliced
+44. (is-mashed ?f - householdObject): true if the food item ?f has been mashed
+45. (is-mashed ?f - householdObject): true if the food item ?f has been mashed
+46.    Description: This predicate identifies whether a furniture or appliance is specifically a sink or basin for washing.
+47.    Description: This predicate indicates that an object has been cleaned.
+48.    Description: This predicate indicates that an object has been cleaned.
+49.    Description: This predicate indicates whether a cloth is clean and suitable for use.
+50.    Description: This predicate indicates that an object, particularly a cloth, has become dirty after use.
+51.    Description: This predicate indicates that an object, particularly a cloth, has become dirty after use.
+52.    Description: This predicate indicates whether a carpet is clean.
+53.    Description: This predicate indicates whether a carpet is clean.
+54.    Description: This predicate indicates whether a carpet is clean.
+--------------------
+--------------------
+Based on the given domain information, parameters, and preconditions, here are the effects for the action of emptying a vacuum cleaner's dust bin into a trash can:
+
+Parameters:
+1. ?r - robot: the household robot performing the action
+2. ?v - householdObject: the vacuum cleaner to be emptied
+3. ?t - furnitureAppliance: the trash can to dump the dust into
+
+Preconditions:
+(and
+    (robot-holding ?r ?v)
+    (robot-at ?r ?t)
+    (is-open ?t)
+    (is-vacuum-cleaner ?v)
+    (is-trash-can ?t)
+    (dust-bin-full ?v)
+)
+
+Effects:
+(and
+    (not (dust-bin-full ?v))
+    (dust-bin-empty ?v)
+    (trash-can-contains-dust ?t)
+)
+
+New Predicates:
+1. (dust-bin-empty ?v - householdObject): true if the dust bin of the vacuum cleaner ?v is empty
+2. (trash-can-contains-dust ?t - furnitureAppliance): true if the trash can ?t contains dust
+
+Explanation of effects:
+1. (not (dust-bin-full ?v)): The vacuum cleaner's dust bin is no longer full after emptying.
+2. (dust-bin-empty ?v): The vacuum cleaner's dust bin is now empty.
+3. (trash-can-contains-dust ?t): The trash can now contains the dust that was emptied from the vacuum cleaner.
+
+These effects represent the changes in the state of the world after the robot empties the vacuum cleaner's dust bin into the trash can. The dust bin of the vacuum cleaner transitions from full to empty, and the trash can is updated to indicate that it now contains dust.
+
+Note that we don't need to change the robot's position or the fact that it's holding the vacuum cleaner, as these remain the same after the action according to the problem description.
+
+--------------------
+Extracted predicates:
+
+1. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+2. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+3. (robot-gripper-empty ?r - robot): true if the robot ?r's gripper is empty
+4. (is-open ?f - furnitureAppliance): true if furniture or appliance ?f is currently open
+5. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+6. (robot-holding ?r - robot ?o - householdObject): true if robot ?r is holding object ?o in its gripper
+7. (can-contain ?f - furnitureAppliance ?o - householdObject): true if furniture or appliance ?f can contain or support object ?o
+8. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+9. (object-in ?o - householdObject ?f - furnitureAppliance): true if object ?o is in/on furniture or appliance ?f
+10. (has-flat-surface ?f - furnitureAppliance): true if furniture or appliance ?f has a flat surface suitable for stacking objects
+11. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+12. (stacked-on ?o1 - householdObject ?o2 - householdObject): true if object ?o1 is stacked directly on top of object ?o2
+13. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+14. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+15. (clear ?o - householdObject): true if there is no object stacked on top of ?o
+16. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+17. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+18. (is-openable ?f - furnitureAppliance): true if furniture or appliance ?f can be opened
+19. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+20. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+21. (is-on ?a - householdObject): true if the small appliance ?a is currently switched on
+22. (robot-at ?r - robot ?f - furnitureAppliance): true if robot ?r is at the location of furniture or appliance ?f
+23.    Description: This predicate identifies objects that can be used as knives for slicing.
+24.    Description: This predicate identifies objects that can be used as knives for slicing.
+25.    Description: This predicate identifies objects that can be used as knives for slicing.
+26. (is-heated ?f - householdObject): true if the food item ?f has been heated
+27. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+28. (is-pickupable ?o - householdObject): true if the object ?o can be picked up by the robot
+29.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+30.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+31.    Description: This predicate identifies whether a furniture or appliance is specifically a stove burner.
+32.    Description: This predicate identifies objects that are food items.
+33. (can-contain ?rec - smallReceptacle ?o - householdObject): true if the small receptacle ?rec can contain the object ?o
+34. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+35. (object-in ?o - householdObject ?rec - smallReceptacle): true if object ?o is in/on the small receptacle ?rec
+36. (is-open ?rec - smallReceptacle): true if the small receptacle ?rec is currently open
+37. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+38. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+39. (is-openable ?rec - smallReceptacle): true if the small receptacle ?rec can be opened
+40. (not (stacked-on ?rec ?o)): true if the receptacle ?rec is not stacked on any other object ?o
+41. (is-closed ?rec - smallReceptacle): true if the small receptacle ?rec is currently closed
+42. (is-closed ?rec - smallReceptacle): true if the small receptacle ?rec is currently closed
+43. (is-sliced ?f - householdObject): true if the food item ?f has been sliced
+44. (is-mashed ?f - householdObject): true if the food item ?f has been mashed
+45. (is-mashed ?f - householdObject): true if the food item ?f has been mashed
+46.    Description: This predicate identifies whether a furniture or appliance is specifically a sink or basin for washing.
+47.    Description: This predicate indicates that an object has been cleaned.
+48.    Description: This predicate indicates that an object has been cleaned.
+49.    Description: This predicate indicates whether a cloth is clean and suitable for use.
+50.    Description: This predicate indicates that an object, particularly a cloth, has become dirty after use.
+51.    Description: This predicate indicates that an object, particularly a cloth, has become dirty after use.
+52.    Description: This predicate indicates whether a carpet is clean.
+53.    Description: This predicate indicates whether a carpet is clean.
+54.    Description: This predicate indicates whether a carpet is clean.
+55. (dust-bin-full ?v - householdObject): true if the dust bin of the vacuum cleaner ?v is full
+56. (trash-can-contains-dust ?t - furnitureAppliance): true if the trash can ?t contains dust
+57. (trash-can-contains-dust ?t - furnitureAppliance): true if the trash can ?t contains dust
